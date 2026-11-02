@@ -119,11 +119,6 @@
           ITE ELB4 / ELR1B3 / ELR2B2, and ELMAB3.
         </p>
 
-        <p class="meta grade-scales">
-          <strong>G3:</strong> A1, A2, B3, B4, C5, C6, D7, E8, 9 · <strong>G2:</strong> 1–6 ·
-          <strong>G1:</strong> A, B, C, D, E
-        </p>
-
         <div class="toolbar filters">
           <div class="field">
             <label for="system">Posting rules</label>
@@ -134,6 +129,13 @@
           </div>
         </div>
 
+        <div class="subjects-head" aria-hidden="true">
+          <span>Subject</span>
+          <span>Category</span>
+          <span>Level</span>
+          <span>Grade</span>
+          <span></span>
+        </div>
         <div id="subjects" class="subjects"></div>
         <div class="toolbar">
           <button type="button" class="ghost" id="add-subject">Add subject</button>
@@ -149,7 +151,7 @@
               <option value="2">Excellent (2 points)</option>
             </select>
           </div>
-          <label class="check"><input type="checkbox" id="hmtl-pass" /> Passed Higher Mother Tongue</label>
+          <label class="check"><input type="checkbox" id="hmtl-pass" /> Passed Higher Mother Tongue (pass/fail bonus)</label>
           <label class="check"><input type="checkbox" id="affiliated" /> Affiliated school</label>
           <label class="check"><input type="checkbox" id="lep" /> Language Elective Programme (JC)</label>
         </div>
@@ -159,12 +161,12 @@
 
         <h2>How the aggregates work</h2>
         <p>
-          <strong>L1R5</strong> (JC today): L1 is English or Higher Mother Tongue. The five relevant
-          subjects must include a humanities subject and a mathematics or science subject. Religious
-          Knowledge cannot be used. You cannot count both Higher Mother Tongue and Mother Tongue.
+          <strong>L1R5</strong> (JC today): L1 is English only (Higher Mother Tongue is pass/fail — use the
+          bonus checkbox below). The five relevant subjects must include humanities and mathematics or
+          science. You cannot count both Higher Mother Tongue and Mother Tongue in the subject list.
         </p>
         <p>
-          <strong>L1R4 from 2028</strong>: L1 is G3 English or Higher Mother Tongue. R1 is humanities,
+          <strong>L1R4 from 2028</strong>: L1 is G3 English. R1 is humanities, R2 is mathematics or science,
           R2 is mathematics or science, R3 is another humanities/math/science subject, R4 is any other
           eligible subject. JC needs net L1R4 ≤ 16; MI needs ≤ 20. Bonus points from CCA, Higher Mother
           Tongue, and affiliation are capped at 3 (plus 2 for LEP if you take that programme).

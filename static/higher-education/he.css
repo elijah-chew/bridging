@@ -143,7 +143,7 @@ footer a { color: var(--accent); text-decoration: none; }
 .site-footer .links a { color: var(--text); text-decoration: none; }
 .site-footer .links a:hover { opacity: 0.7; }
 .site-footer .links svg { display: block; }
-.toolbar, .bonus, .subject-row {
+.toolbar, .bonus {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -182,8 +182,30 @@ button.ghost {
 }
 button:hover { filter: brightness(0.96); }
 .subjects { display: flex; flex-direction: column; gap: 8px; margin: 16px 0; }
-.subject-row select, .subject-row input { min-width: 120px; }
-.subject-row .grow { flex: 1 1 180px; }
+.subjects-head,
+.subject-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(140px, 1fr) 56px minmax(64px, 80px) auto;
+  gap: 8px 12px;
+  align-items: center;
+}
+.subjects-head {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 2px;
+}
+.subject-row select,
+.subject-row input.name {
+  width: 100%;
+  min-width: 0;
+}
+.subject-row .ghost {
+  padding: 8px 10px;
+  font-size: 13px;
+}
+.subject-row select, .subject-row input { min-width: 0; }
+.subject-row .grow { min-width: 0; }
 .check { display: flex; align-items: center; gap: 8px; font-size: 14px; }
 .results {
   display: flex;
@@ -194,10 +216,21 @@ button:hover { filter: brightness(0.96); }
 .results h2 { margin: 0 0 8px; }
 .score-table td.num { font-variant-numeric: tabular-nums; font-weight: 600; }
 .score-table .meta { white-space: normal; max-width: 420px; }
-.subject-row .band { min-width: 72px; flex: 0 0 72px; }
-.grade-scales { margin: -8px 0 16px; line-height: 1.5; }
-.subject-row .grade { min-width: 72px; flex: 0 0 72px; }
-.subject-row .cat { min-width: 140px; }
+@media (max-width: 720px) {
+  .subjects-head { display: none; }
+  .subject-row {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "name name"
+      "cat level"
+      "grade remove";
+  }
+  .subject-row .name { grid-area: name; }
+  .subject-row .cat { grid-area: cat; }
+  .subject-row .band { grid-area: level; }
+  .subject-row .grade { grid-area: grade; }
+  .subject-row .ghost { grid-area: remove; justify-self: end; }
+}
 html.cutoffs .wrap { max-width: 1320px; padding-left: 16px; padding-right: 16px; }
 html.cutoffs .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 html.cutoffs table { font-size: 13px; table-layout: auto; }

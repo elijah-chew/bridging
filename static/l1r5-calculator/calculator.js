@@ -1,6 +1,5 @@
 const SUBJECTS = [
   { name: "English", cat: "el" },
-  { name: "Higher Mother Tongue", cat: "hmtl" },
   { name: "Mother Tongue", cat: "mtl" },
   { name: "Elementary Mathematics", cat: "math" },
   { name: "Additional Mathematics", cat: "math" },
@@ -11,25 +10,21 @@ const SUBJECTS = [
 
 const CATS = [
   ["el", "English"],
-  ["hmtl", "Higher MTL"],
   ["mtl", "Mother Tongue"],
   ["hum", "Humanities"],
   ["math", "Mathematics"],
   ["sci", "Science"],
   ["poa", "POA"],
-  ["art", "Art / Music"],
-  ["others", "Other"],
-  ["rk", "Religious Knowledge"],
 ];
 
-const HUM = new Set(["hum", "art"]);
+const HUM = new Set(["hum"]);
 const MATHSCI = new Set(["math", "sci"]);
-const ITE_R2 = new Set(["sci", "others"]);
+const ITE_R2 = new Set(["sci"]);
 const ELR2 = {
-  A: { r1: new Set(["hum", "art"]), r2: new Set(["hum", "art", "math", "sci", "poa", "others", "mtl", "hmtl"]) },
-  B: { r1: new Set(["math"]), r2: new Set(["hum", "art", "poa", "others", "mtl", "hmtl"]) },
+  A: { r1: new Set(["hum"]), r2: new Set(["hum", "math", "sci", "poa", "mtl"]) },
+  B: { r1: new Set(["math"]), r2: new Set(["hum", "poa", "mtl"]) },
   C: { r1: new Set(["math"]), r2: new Set(["sci"]) },
-  D: { r1: new Set(["math"]), r2: new Set(["art", "poa", "others"]) },
+  D: { r1: new Set(["math"]), r2: new Set(["hum", "poa"]) },
 };
 
 const G3_LABELS = ["A1", "A2", "B3", "B4", "C5", "C6", "D7", "E8", "9"];
@@ -73,6 +68,10 @@ function isSec() {
 
 function fillGrades(select, band, keep) {
   select.innerHTML = "";
+  const blank = document.createElement("option");
+  blank.value = "";
+  blank.textContent = "–";
+  select.appendChild(blank);
   const opts = band === "g1"
     ? G1_LABELS.map((label, i) => [String(i + 1), label])
     : band === "g2"
@@ -84,9 +83,8 @@ function fillGrades(select, band, keep) {
     o.textContent = label;
     select.appendChild(o);
   }
-  const max = Number(opts[opts.length - 1][0]);
-  const next = Math.min(Number(keep) || 4, max);
-  select.value = String(next);
+  const keepStr = keep == null || keep === "" ? "" : String(keep);
+  select.value = keepStr && opts.some(([v]) => v === keepStr) ? keepStr : "";
 }
 
 function restOf(subjects, used, usedHmtl) {
@@ -99,7 +97,7 @@ function parseRows() {
     cat: row.querySelector(".cat").value,
     band: row.querySelector(".band").value,
     grade: Number(row.querySelector(".grade").value),
-  })).filter((s) => s.name && s.grade >= 1 && s.cat !== "rk");
+  })).filter((s) => s.name && s.grade >= 1);
 }
 
 function g3Only(subjects) {
@@ -119,10 +117,10 @@ function labelPts(s, pts) {
 
 function bestL1R5(subjects) {
   const pool = g3Only(subjects);
-  const l1s = pool.filter((s) => s.cat === "el" || s.cat === "hmtl");
+  const l1s = pool.filter((s) => s.cat === "el");
   let best = null;
   for (const l1 of l1s) {
-    const rest = restOf(pool, [l1], l1.cat === "hmtl");
+    const rest = restOf(pool, [l1], false);
     if (rest.length < 5) continue;
     for (const five of combinations(rest, 5)) {
       if (!five.some((s) => HUM.has(s.cat)) || !five.some((s) => MATHSCI.has(s.cat))) continue;
@@ -135,10 +133,10 @@ function bestL1R5(subjects) {
 
 function bestL1R4(subjects, mode2028) {
   const pool = g3Only(subjects);
-  const l1s = pool.filter((s) => s.cat === "el" || s.cat === "hmtl");
+  const l1s = pool.filter((s) => s.cat === "el");
   let best = null;
   for (const l1 of l1s) {
-    const rest = restOf(pool, [l1], l1.cat === "hmtl");
+    const rest = restOf(pool, [l1], false);
     if (mode2028) {
       const r1 = rest.filter((s) => HUM.has(s.cat)).sort((a, b) => a.grade - b.grade)[0];
       const r2 = rest.filter((s) => MATHSCI.has(s.cat) && s !== r1).sort((a, b) => a.grade - b.grade)[0];
@@ -308,7 +306,7 @@ function addRow(preset) {
     o.textContent = label;
     cat.appendChild(o);
   }
-  cat.value = preset?.cat || "others";
+  cat.value = preset?.cat || "sci";
   const band = document.createElement("select");
   band.className = "band";
   for (const [value, label] of [
@@ -324,7 +322,7 @@ function addRow(preset) {
   band.value = "g3";
   const grade = document.createElement("select");
   grade.className = "grade";
-  fillGrades(grade, "g3", "4");
+  fillGrades(grade, "g3", "");
   band.addEventListener("change", () => {
     fillGrades(grade, band.value, grade.value);
     compute();
@@ -374,11 +372,11 @@ function compute() {
 
   const jcRows = sec
     ? [
-        row("L1R4 · JC from 2028", l1r428, bonus28, status(l1r428 ? l1r428.gross - bonus28 : null, 16, "JC-eligible (≤ 16)", "Need G3 English/HMTL, humanities, math/science")),
-        row("L1R4 · MI from 2028", l1r428, bonus28, status(l1r428 ? l1r428.gross - bonus28 : null, 20, "MI-eligible (≤ 20)", "Need G3 English/HMTL, humanities, math/science")),
+        row("L1R4 · JC from 2028", l1r428, bonus28, status(l1r428 ? l1r428.gross - bonus28 : null, 16, "JC-eligible (≤ 16)", "Need G3 English, humanities, math/science")),
+        row("L1R4 · MI from 2028", l1r428, bonus28, status(l1r428 ? l1r428.gross - bonus28 : null, 20, "MI-eligible (≤ 20)", "Need G3 English, humanities, math/science")),
       ]
     : [
-        row("L1R5 · JC today", l1r5, bonusJc, status(l1r5 ? l1r5.gross - bonusJc : null, 20, "JC-eligible (≤ 20)", "Need English or HMTL + 5 G3 subjects")),
+        row("L1R5 · JC today", l1r5, bonusJc, status(l1r5 ? l1r5.gross - bonusJc : null, 20, "JC-eligible (≤ 20)", "Need English + 5 G3 subjects")),
         row("L1R4 · MI today", l1r4, bonusJc, status(l1r4 ? l1r4.gross - bonusJc : null, 20, "MI-eligible (≤ 20)", "Need 4 G3 relevant subjects")),
       ];
 
