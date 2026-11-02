@@ -3,7 +3,7 @@ for (let y = 2026; y >= 2014; y--) ALL_YEARS.push(y);
 const RECENT = [2026, 2025, 2024, 2023];
 
 function cell(v) {
-  if (v == null || v === "") return "—";
+  if (v == null || v === "") return "-";
   return String(v);
 }
 
@@ -67,8 +67,8 @@ function render(allRows) {
         .map(
           (r) => `<tr>
             <td class="course">${r.course}${r.stream && r.stream !== r.course ? ` <span class="meta">(${r.stream})</span>` : ""}</td>
-            <td>${r.code || "—"}</td>
-            <td>${r.aggregate || "—"}</td>
+            <td>${r.code || "-"}</td>
+            <td>${r.aggregate || "-"}</td>
             ${years.map((y) => `<td class="yr">${cell(r.cop?.[y] ?? r.cop?.[String(y)])}</td>`).join("")}
           </tr>`
         )

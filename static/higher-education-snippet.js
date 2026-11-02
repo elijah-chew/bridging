@@ -46,7 +46,7 @@
       '<a class="he-card" href="/l1r5-calculator">' +
       '<span class="he-pill">Aggregate calculator</span>' +
       "<h3>L1R5/4 JC and Poly/ITE Aggregate Calculator</h3>" +
-      "<p>Enter G3, G2 and G1 grades once. Get JC L1R5 and L1R4, polytechnic ELR2B2-A to D, and ITE aggregates including ELMAB3 — with CCA and bonus points applied.</p>" +
+      "<p>Enter G3, G2 and G1 grades once. Get JC L1R5 and L1R4, polytechnic ELR2B2-A to D, and ITE aggregates including ELMAB3, with CCA and bonus points applied.</p>" +
       '<span class="he-cta">Open calculator <span>→</span></span>' +
       "</a>" +
       '<a class="he-card cyan" href="/cut-off-points">' +

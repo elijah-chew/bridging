@@ -1,0 +1,152 @@
+/* Homepage-only mobile layout fixes for the WeWeb export.
+   Unlayered so these beat WeWeb @layer rules. */
+@media (max-width: 767px) {
+  .ww-s-dG {
+    min-height: unset;
+  }
+
+  .ww-s-dG > .ww-section-element {
+    min-height: unset;
+    padding: 120px 16px 36px;
+  }
+
+  .ww-e-dJ6 {
+    font-size: 40px;
+    line-height: 1.08;
+  }
+
+  .ww-e-dJ7 {
+    font-size: 15px;
+    line-height: 1.45;
+    padding: 0 4px;
+  }
+
+  .ww-e-dIh {
+    height: 56px;
+    margin: 0 auto -4px;
+  }
+
+  .ww-e-dJ5.ww-layout,
+  .ww-e-dJ5 [data-ww-ls~="dJ5"] {
+    gap: 12px;
+  }
+
+  .ww-e-dJ8.ww-layout,
+  .ww-e-dJ8 [data-ww-ls~="dJ8"] {
+    gap: 10px;
+  }
+
+  .ww-e-dIp,
+  .ww-e-dJE {
+    padding: 12px 22px;
+  }
+
+  .ww-s-d4 > .ww-section-element,
+  .ww-s-dH > .ww-section-element,
+  .ww-s-dI > .ww-section-element {
+    padding: 56px 16px;
+  }
+
+  .ww-s-d2 > .ww-section-element {
+    padding: 28px 16px;
+  }
+
+  /* Fake dashboard card */
+  .ww-e-dJF {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  /* Browser chrome: traffic lights + URL + LIVE PREVIEW */
+  .ww-e-dNl {
+    padding: 8px 10px;
+    min-width: 0;
+    overflow: hidden;
+    align-items: center;
+  }
+
+  .ww-e-dNl.ww-layout,
+  .ww-e-dNl [data-ww-ls~="dNl"] {
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+
+  .ww-e-dNm {
+    flex: 0 0 auto;
+  }
+
+  .ww-e-dNr {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: none;
+    width: auto;
+    padding: 4px 8px;
+  }
+
+  .ww-e-dNp {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 11px;
+  }
+
+  .ww-e-dNq {
+    flex: 0 0 auto;
+    align-items: center;
+  }
+
+  .ww-e-dNt {
+    white-space: nowrap;
+    font-size: 9px;
+    line-height: 1.2;
+    padding: 4px 7px;
+    letter-spacing: 0.04em;
+  }
+
+  /* Mock stats */
+  .ww-e-d4a {
+    padding: 12px;
+  }
+
+  .ww-e-d4a.ww-layout,
+  .ww-e-d4a [data-ww-ls~="d4a"] {
+    gap: 10px;
+  }
+
+  .ww-e-d4g,
+  .ww-e-dGE,
+  .ww-e-dGF {
+    padding: 12px;
+    min-width: 0;
+  }
+
+  /* FAQ / accordion headers and bodies */
+  .ww-e-d4Y,
+  .ww-e-dDR,
+  .ww-e-dDT {
+    padding: 16px;
+  }
+
+  .ww-e-dJK,
+  .ww-e-dJL,
+  .ww-e-dO6 {
+    padding: 0 16px 16px;
+  }
+
+  /* How-it-works cards */
+  .ww-e-dJA,
+  .ww-e-dMk,
+  .ww-e-dMo {
+    padding: 14px;
+    overflow: hidden;
+    min-width: 0;
+  }
+
+  .ww-e-dFh.ww-layout,
+  .ww-e-dFh [data-ww-ls~="dFh"] {
+    gap: 32px;
+  }
+}

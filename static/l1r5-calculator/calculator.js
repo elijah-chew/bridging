@@ -357,8 +357,8 @@ function renderTable(rows) {
     <thead><tr><th>Aggregate</th><th>Net</th><th>Gross</th><th>Bonus</th><th>Guide</th></tr></thead>
     <tbody>${rows.map((r) => `<tr>
       <td><strong>${r.name}</strong><div class="meta">${breakdown(r.sel)}</div></td>
-      <td class="num net">${r.net == null ? "—" : r.net}</td>
-      <td class="num">${r.sel ? r.sel.gross : "—"}</td>
+      <td class="num net">${r.net == null ? "-" : r.net}</td>
+      <td class="num">${r.sel ? r.sel.gross : "-"}</td>
       <td class="num">−${r.bonus}</td>
       <td>${r.guide}</td>
     </tr>`).join("")}</tbody>

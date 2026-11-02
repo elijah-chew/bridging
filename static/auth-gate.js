@@ -1,6 +1,22 @@
 (function () {
+  var ADMIN_EMAIL = '3lijahzhou@gmail.com';
   var gated = /^\/(practice|notes|topics|dashboard|analytics|account|admin)(\/|$)/;
+  var adminPath = /^\/admin(\/|$)/;
   var checking = false;
+
+  if (adminPath.test(location.pathname)) {
+    document.documentElement.classList.add('admin-pending');
+    var lock = document.createElement('style');
+    lock.id = 'bridging-admin-lock';
+    lock.textContent = 'html.admin-pending body{visibility:hidden!important}';
+    document.head.appendChild(lock);
+  }
+
+  function unlockAdmin() {
+    document.documentElement.classList.remove('admin-pending');
+    var lockEl = document.getElementById('bridging-admin-lock');
+    if (lockEl) lockEl.remove();
+  }
 
   function hasClientSessionHint() {
     try {
@@ -12,6 +28,21 @@
     return false;
   }
 
+  function supabaseSessionEmail() {
+    try {
+      for (var i = 0; i < localStorage.length; i++) {
+        var key = localStorage.key(i) || '';
+        if (!/^sb-.*-auth-token$/i.test(key)) continue;
+        var raw = localStorage.getItem(key);
+        if (!raw) continue;
+        var data = JSON.parse(raw);
+        var email = (data && data.user && data.user.email) || (data && data.currentSession && data.currentSession.user && data.currentSession.user.email);
+        if (email) return String(email).trim().toLowerCase();
+      }
+    } catch (e) {}
+    return '';
+  }
+
   function sessionLooksValid(payload) {
     if (!payload) return false;
     if (payload.user && (payload.user.id || payload.user.email)) return true;
@@ -19,9 +50,31 @@
     return false;
   }
 
+  function sessionEmail(payload) {
+    var email = payload && payload.user && payload.user.email;
+    return String(email || '').trim().toLowerCase();
+  }
+
+  function isAdminSession(payload) {
+    if (sessionEmail(payload) === ADMIN_EMAIL) return true;
+    if (supabaseSessionEmail() === ADMIN_EMAIL) return true;
+    return false;
+  }
+
+  function removeFloatingBrix() {
+    var byId = document.getElementById('bridging-brix');
+    if (byId) byId.remove();
+    var imgs = document.querySelectorAll('img[src*="/brand/brix.png"], img[src*="brix.png"]');
+    for (var i = 0; i < imgs.length; i++) {
+      var img = imgs[i];
+      var style = window.getComputedStyle(img);
+      if (style.position === 'fixed' || img.id === 'bridging-brix') img.remove();
+    }
+  }
+
   function guard(attempt) {
+    removeFloatingBrix();
     if (!gated.test(location.pathname)) {
-      paintBrix();
       return;
     }
     if (checking && !attempt) return;
@@ -31,9 +84,30 @@
         return res.json();
       })
       .then(function (session) {
+        if (adminPath.test(location.pathname)) {
+          if (isAdminSession(session)) {
+            checking = false;
+            unlockAdmin();
+            removeFloatingBrix();
+            return;
+          }
+          if (sessionLooksValid(session) || hasClientSessionHint()) {
+            checking = false;
+            location.replace('/dashboard');
+            return;
+          }
+          var adminNext = (attempt || 0) + 1;
+          if (adminNext < 6) {
+            setTimeout(function () { guard(adminNext); }, 250);
+            return;
+          }
+          checking = false;
+          location.replace('/login?redirect=/admin');
+          return;
+        }
         if (sessionLooksValid(session)) {
           checking = false;
-          paintBrix();
+          removeFloatingBrix();
           return;
         }
         var next = (attempt || 0) + 1;
@@ -43,32 +117,15 @@
         }
         checking = false;
         if (hasClientSessionHint()) {
-          paintBrix();
+          removeFloatingBrix();
           return;
         }
         location.replace('/login');
       })
       .catch(function () {
         checking = false;
-        paintBrix();
+        removeFloatingBrix();
       });
-  }
-
-  function paintBrix() {
-    var onPractice = /^\/practice(\/|$)/.test(location.pathname);
-    var existing = document.getElementById('bridging-brix');
-    if (!onPractice) {
-      if (existing) existing.remove();
-      return;
-    }
-    if (existing) return;
-    var img = document.createElement('img');
-    img.id = 'bridging-brix';
-    img.src = '/brand/brix.png';
-    img.alt = 'Brix';
-    img.style.cssText =
-      'position:fixed;right:max(12px,env(safe-area-inset-right));bottom:max(12px,env(safe-area-inset-bottom));width:min(132px,26vw);height:auto;z-index:40;pointer-events:none;filter:drop-shadow(0 10px 18px rgba(15,23,42,.18));';
-    document.body.appendChild(img);
   }
 
   var push = history.pushState;

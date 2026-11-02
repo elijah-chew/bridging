@@ -121,7 +121,7 @@
           if (s.lastDate === date) {
             result.hidden = false;
             result.className = 'result ' + (s.lastCorrect ? 'ok' : 'no');
-            result.textContent = s.lastCorrect ? 'Already marked correct today.' : 'Already attempted today — you can try again, or come back tomorrow.';
+            result.textContent = s.lastCorrect ? 'Already marked correct today.' : 'Already attempted today. You can try again, or come back tomorrow.';
             if (s.lastCorrect) form.hidden = true;
           }
         })
