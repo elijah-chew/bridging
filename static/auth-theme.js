@@ -26,7 +26,17 @@
     "html.bl-auth button[type=submit]:hover,html.bl-auth button.ww-button:hover{transform:translateY(-1px);box-shadow:0 12px 28px rgba(10,10,10,.18)!important}" +
     "html.bl-auth a{color:#3b82f6!important;font-weight:500}" +
     "html.bl-auth label{font:500 13px/1 Inter,sans-serif!important;color:#64748b!important;letter-spacing:-.01em!important}" +
-    ".bl-auth-card-hit{border-radius:20px!important;border:1px solid rgba(0,0,0,.08)!important;box-shadow:0 8px 32px rgba(0,0,0,.04)!important;background:#fff!important}";
+    ".bl-auth-card-hit{border-radius:20px!important;border:1px solid rgba(0,0,0,.08)!important;box-shadow:0 8px 32px rgba(0,0,0,.04)!important;background:#fff!important;padding:34px 30px 30px!important}" +
+    ".bl-auth-outer{background:transparent!important;border:0!important;box-shadow:none!important;border-radius:0!important}" +
+    "html.bl-auth .bl-auth-title{font:600 28px/1.1 Inter,sans-serif!important;letter-spacing:-.045em!important;color:#0a0a0a!important;margin:0 0 8px!important}" +
+    "html.bl-auth .bl-auth-title em{font-family:'Source Serif 4',Georgia,serif;font-style:italic;font-weight:600;letter-spacing:-.05em}" +
+    "html.bl-auth .bl-auth-sub{font:400 15px/1.5 Inter,sans-serif!important;color:#6b6b6b!important;margin:0 auto 22px!important;max-width:300px}" +
+    "html.bl-auth .bl-auth-label{display:block;width:100%;text-align:left;font:500 12.5px/1.2 Inter,sans-serif;color:#475569;margin:0 0 7px}" +
+    "html.bl-auth .bl-auth-switch{display:flex!important;flex-direction:row!important;justify-content:center!important;align-items:center!important;gap:5px!important;white-space:nowrap}" +
+    "html.bl-auth .bl-auth-switch *{white-space:nowrap}" +
+    "@media (max-width:480px){.bl-auth-card-hit{padding:28px 20px 24px!important}}" +
+    "html.bl-auth .bl-auth-fine{font:400 12.5px/1.5 Inter,sans-serif!important;color:#94a3b8!important}" +
+    "html.bl-auth .bl-auth-fine a{color:#6b6b6b!important;text-decoration:none!important;border-bottom:1px solid rgba(0,0,0,.18)}";
 
   document.documentElement.classList.add("bl-auth");
   var style = document.createElement("style");
@@ -64,29 +74,58 @@
     var heads = document.querySelectorAll("h1, h2, p");
     heads.forEach(function (el) {
       var t = (el.textContent || "").trim();
-      if (/welcome back/i.test(t)) accent(el, "back");
-      else if (/create an account/i.test(t)) accent(el, "account");
-      else if (/forgot|reset/i.test(t) && el.tagName !== "A") accent(el, "password");
+      if (/welcome back/i.test(t)) { accent(el, "back"); el.classList.add("bl-auth-title"); }
+      else if (/create an account/i.test(t)) { accent(el, "account"); el.classList.add("bl-auth-title"); }
+      else if (/^(forgot|reset) /i.test(t) && el.tagName !== "A") { accent(el, "password"); el.classList.add("bl-auth-title"); }
+      else if (/^(start mastering|sign in to your|enter your email)/i.test(t)) el.classList.add("bl-auth-sub");
+      else if (/^by clicking/i.test(t)) el.classList.add("bl-auth-fine");
+      else if (/^(don't|dont|already) have an account/i.test(t) && el.parentElement) el.parentElement.classList.add("bl-auth-switch");
       if (/BRIDGING/.test(t) && el.children.length === 0) el.textContent = t.replace(/BRIDGING/g, "Bridging");
     });
 
+    // Login export ships the email field without a label; add one.
+    var email = document.querySelector("input[type=email]");
+    if (email && email.parentElement && !email.parentElement.querySelector(".bl-auth-label")) {
+      var hasLabel = Array.prototype.some.call(document.querySelectorAll("label, p, span, div"), function (n) {
+        return n.children.length === 0 && /^email$/i.test(n.textContent.trim());
+      });
+      if (!hasLabel) {
+        var lab = document.createElement("div");
+        lab.className = "bl-auth-label";
+        lab.textContent = "Email";
+        email.parentElement.insertBefore(lab, email.parentElement.firstChild);
+      }
+    }
     var btn = document.querySelector("button[type=submit], button.ww-button");
     if (btn) {
+      // Innermost box that holds the whole form becomes the one card.
       var card = btn.parentElement;
       var best = null;
-      var bestW = 0;
-      for (var i = 0; i < 10 && card; i++) {
+      for (var i = 0; i < 10 && card && card !== document.body; i++) {
         var r = card.getBoundingClientRect();
-        if (r.width > 280 && r.width < 560 && r.height > 320 && r.width >= bestW) {
+        if (r.width > 280 && r.width < 560 && r.height > 300 && card.querySelector("input") && card.querySelector(".bl-auth-title")) {
           best = card;
-          bestW = r.width;
+          break;
         }
         card = card.parentElement;
       }
-      document.querySelectorAll(".bl-auth-card-hit").forEach(function (el) {
-        el.classList.remove("bl-auth-card-hit");
-      });
-      if (best) best.classList.add("bl-auth-card-hit");
+      if (best && !best.classList.contains("bl-auth-card-hit")) {
+        document.querySelectorAll(".bl-auth-card-hit").forEach(function (el) {
+          el.classList.remove("bl-auth-card-hit");
+        });
+        best.classList.add("bl-auth-card-hit");
+      }
+      // Any boxed wrapper around it (logo + card + footer) goes flat, so
+      // the card never sits inside a second card.
+      var up = best ? best.parentElement : null;
+      for (var j = 0; j < 8 && up && up !== document.body; j++) {
+        var cs = getComputedStyle(up);
+        var w = up.getBoundingClientRect().width;
+        var boxed = cs.boxShadow !== "none" || parseFloat(cs.borderTopWidth) > 0 ||
+          (cs.backgroundColor !== "rgba(0, 0, 0, 0)" && cs.backgroundColor !== "transparent");
+        if (boxed && w < 760) up.classList.add("bl-auth-outer");
+        up = up.parentElement;
+      }
     }
   }
 
