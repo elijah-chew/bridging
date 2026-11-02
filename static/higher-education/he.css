@@ -115,6 +115,34 @@ footer {
   font-size: 13px;
 }
 footer a { color: var(--accent); text-decoration: none; }
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 0 36px;
+  margin-top: 40px;
+}
+.site-footer .wordmark {
+  display: block;
+  height: 26px;
+  width: auto;
+  margin-bottom: 14px;
+}
+.site-footer .copy {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0 0 16px;
+  letter-spacing: 0.02em;
+}
+.site-footer .links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+}
+.site-footer .links a { color: var(--text); text-decoration: none; }
+.site-footer .links a:hover { opacity: 0.7; }
+.site-footer .links svg { display: block; }
 .toolbar, .bonus, .subject-row {
   display: flex;
   flex-wrap: wrap;
