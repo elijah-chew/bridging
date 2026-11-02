@@ -166,6 +166,13 @@ main { padding: 0 0 24px; }
   transition: background 0.18s ease, transform 0.18s ease;
 }
 .nav-cta:hover { background: var(--blue-deep); transform: translateY(-1px); }
+.nav-auth { display: flex; align-items: center; gap: 8px; flex: 0 0 auto; }
+.nav-cta.ghost {
+  background: #fff;
+  color: var(--ink) !important;
+  border: 1px solid var(--line);
+}
+.nav-cta.ghost:hover { background: #f8fafc; color: var(--blue-deep) !important; }
 @media (max-width: 760px) {
   .topbar { top: 10px; padding-top: 10px; }
   .nav {
@@ -174,6 +181,7 @@ main { padding: 0 0 24px; }
     padding: 10px 12px 8px 14px;
   }
   .nav-cta { margin-left: auto; order: 2; }
+  .nav-auth { margin-left: auto; order: 2; }
   .nav-links {
     order: 3;
     flex: 1 1 100%;
@@ -225,7 +233,7 @@ h1 {
   color: var(--ink);
   text-wrap: balance;
 }
-h1 em {
+h1 em, h2 em {
   font-family: var(--serif);
   font-style: italic;
   font-weight: 600;
@@ -763,7 +771,42 @@ html.cutoffs .count { margin: 0 0 12px; }
   .social { justify-content: center; }
 }
 
+.he-save {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 10px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--mid);
+  font: 600 12px/1 var(--font);
+  letter-spacing: -0.01em;
+  cursor: pointer;
+}
+.he-save:hover, .he-save.is-saved {
+  border-color: rgba(59, 130, 246, 0.35);
+  color: var(--blue-deep);
+  background: rgba(59, 130, 246, 0.08);
+}
+.saved-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.saved-col h3 { margin: 0 0 10px; font: 600 15px/1.2 var(--font); letter-spacing: -0.03em; }
+.saved-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  margin-bottom: 8px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: #fff;
+  text-decoration: none;
+  box-shadow: var(--shadow-card);
+}
+.saved-row:hover { border-color: rgba(59, 130, 246, 0.3); }
+.saved-row strong { font: 600 15px/1.25 var(--font); letter-spacing: -0.02em; }
 @media (max-width: 760px) {
+  .saved-grid { grid-template-columns: 1fr; }
   .hero { padding: 48px 0 28px; }
   .tool-grid, .fact-strip { grid-template-columns: 1fr; }
   .panel, .results section { padding: 20px; }

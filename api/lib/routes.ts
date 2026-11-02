@@ -1,10 +1,12 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { handleAdminAnalytics, requireAdmin } from './admin-analytics.js';
 import {
   bridgingClient,
   currentUser,
   loadView,
   presentRow,
   readBody,
+  recordAllUser,
   sendJson,
   tablePayload,
 } from './bridging.js';
@@ -104,6 +106,11 @@ async function ensureSettings(req: VercelRequest, res: VercelResponse): Promise<
     { user_id: session.user.id, email: session.user.email ?? null },
     { onConflict: 'user_id' },
   );
+  try {
+    await recordAllUser(session.user);
+  } catch {
+    /* all_users is best-effort */
+  }
   sendJson(res, 200, presentRow((data ?? created) as Record<string, unknown>));
 }
 
@@ -128,7 +135,7 @@ async function deleteAccount(req: VercelRequest, res: VercelResponse): Promise<v
     return;
   }
   const db = bridgingClient(session.token);
-  for (const table of ['attempts', 'mock_tests', 'analytics_events', 'user_settings', 'registered_users']) {
+  for (const table of ['he_saved_items', 'attempts', 'mock_tests', 'analytics_events', 'user_settings', 'registered_users']) {
     const { error } = await db.from(table).delete().eq('user_id', session.user.id);
     if (error) {
       sendJson(res, 400, { error: error.message });
@@ -136,6 +143,74 @@ async function deleteAccount(req: VercelRequest, res: VercelResponse): Promise<v
     }
   }
   sendJson(res, 200, { ok: true });
+}
+
+function heItemKey(row: { itemType?: string; kind?: string; institution?: string; course?: string; code?: string }): string {
+  return [row.itemType || 'course', row.kind || '', row.institution || '', row.course || '', row.code || ''].join('|');
+}
+
+async function handleHeSaves(req: VercelRequest, res: VercelResponse): Promise<void> {
+  const session = await currentUser(req);
+  if (!session) {
+    sendJson(res, 401, { error: 'Sign in required' });
+    return;
+  }
+  const db = bridgingClient(session.token);
+  if (req.method === 'GET') {
+    const { data, error } = await db
+      .from('he_saved_items')
+      .select('*')
+      .eq('user_id', session.user.id)
+      .order('created_at', { ascending: false });
+    if (error) {
+      sendJson(res, 400, { error: error.message });
+      return;
+    }
+    sendJson(res, 200, { items: data ?? [] });
+    return;
+  }
+  if (req.method !== 'POST') {
+    sendJson(res, 405, { error: 'Method not allowed' });
+    return;
+  }
+  const body = readBody(req);
+  const itemType = String(body.itemType ?? body.item_type ?? 'course') === 'school' ? 'school' : 'course';
+  const kind = String(body.kind ?? '').trim();
+  const institution = String(body.institution ?? '').trim();
+  const course = String(body.course ?? '').trim();
+  const code = String(body.code ?? '').trim();
+  const key = heItemKey({ itemType, kind, institution, course, code });
+  const op = String(body.op ?? 'add');
+  if (!institution || (itemType === 'course' && !course)) {
+    sendJson(res, 400, { error: 'Missing school or course' });
+    return;
+  }
+  if (op === 'remove') {
+    const { error } = await db.from('he_saved_items').delete().eq('user_id', session.user.id).eq('item_key', key);
+    if (error) {
+      sendJson(res, 400, { error: error.message });
+      return;
+    }
+    sendJson(res, 200, { ok: true, removed: true });
+    return;
+  }
+  const { error } = await db.from('he_saved_items').upsert(
+    {
+      user_id: session.user.id,
+      item_type: itemType,
+      kind: kind || null,
+      institution,
+      course,
+      code,
+      item_key: key,
+    },
+    { onConflict: 'user_id,item_key' },
+  );
+  if (error) {
+    sendJson(res, 400, { error: error.message });
+    return;
+  }
+  sendJson(res, 200, { ok: true, saved: true });
 }
 
 async function saveMock(req: VercelRequest, res: VercelResponse): Promise<void> {
@@ -169,12 +244,26 @@ async function saveMock(req: VercelRequest, res: VercelResponse): Promise<void> 
 async function recordEvent(req: VercelRequest, res: VercelResponse): Promise<void> {
   const body = readBody(req);
   const session = await currentUser(req);
+  const topicId = String(body.topicId ?? body.topic_id ?? '').trim();
+  const noteId = String(body.noteId ?? body.note_id ?? '').trim();
   const { error } = await bridgingClient(session?.token).from('analytics_events').insert({
     user_id: session?.user.id ?? null,
-    event_name: String(body.eventType ?? body.event_name ?? 'event'),
-    payload: body,
+    event_type: String(body.eventType ?? body.event_type ?? 'page_view'),
+    page_path: String(body.pagePath ?? body.page_path ?? '/'),
+    topic_id: topicId || null,
+    note_id: noteId || null,
+    utm_source: String(body.utmSource ?? body.utm_source ?? '') || null,
+    utm_medium: String(body.utmMedium ?? body.utm_medium ?? '') || null,
+    utm_campaign: String(body.utmCampaign ?? body.utm_campaign ?? '') || null,
+    referrer_host: String(body.referrerHost ?? body.referrer_host ?? '') || null,
+    device_type: String(body.deviceType ?? body.device_type ?? '') || null,
+    browser_language: String(body.browserLanguage ?? body.browser_language ?? '') || null,
   });
-  sendJson(res, 200, { ok: !error });
+  if (error) {
+    sendJson(res, 400, { ok: false, error: error.message });
+    return;
+  }
+  sendJson(res, 200, { ok: true });
 }
 
 export async function handleBridge(req: VercelRequest, res: VercelResponse): Promise<void> {
@@ -198,6 +287,10 @@ export async function handleBridge(req: VercelRequest, res: VercelResponse): Pro
         return;
       }
       sendJson(res, 200, { ok: true });
+      return;
+    }
+    if (kind === 'account' && action === 'saves') {
+      await handleHeSaves(req, res);
       return;
     }
     if (kind === 'account' && action === 'settings') {
@@ -225,13 +318,16 @@ export async function handleBridge(req: VercelRequest, res: VercelResponse): Pro
       return;
     }
     if (kind === 'admin' && action === 'analytics') {
-      const db = bridgingClient();
-      const [topics, questions, notes] = await Promise.all([
-        db.from('topics').select('id', { count: 'exact', head: true }),
-        db.from('questions').select('id', { count: 'exact', head: true }),
-        db.from('notes').select('id', { count: 'exact', head: true }),
-      ]);
-      sendJson(res, 200, { topics: topics.count ?? 0, questions: questions.count ?? 0, notes: notes.count ?? 0 });
+      if (req.method !== 'POST') {
+        sendJson(res, 405, { error: 'Method not allowed' });
+        return;
+      }
+      if (!(await requireAdmin(req))) {
+        sendJson(res, 403, { error: 'Admin access required' });
+        return;
+      }
+      const payload = await handleAdminAnalytics(req);
+      sendJson(res, 200, payload);
       return;
     }
     sendJson(res, 200, { ok: true });

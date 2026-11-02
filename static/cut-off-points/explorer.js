@@ -62,11 +62,12 @@ function render(allRows) {
   document.getElementById("body").innerHTML = groups
     .map((g) => {
       const label = g.kind === "jc" ? "JC / MI" : g.kind === "poly" ? "Polytechnic" : "ITE";
-      const head = `<tr class="school-row"><td colspan="${colCount}"><span class="badge">${label}</span> ${g.institution}</td></tr>`;
+      const schoolBtn = `<button type="button" class="he-save" data-he-save="school" data-kind="${g.kind}" data-institution="${String(g.institution).replace(/"/g, "&quot;")}">Save</button>`;
+      const head = `<tr class="school-row"><td colspan="${colCount}"><span class="badge">${label}</span> ${g.institution} ${schoolBtn}</td></tr>`;
       const lines = g.courses
         .map(
           (r) => `<tr>
-            <td class="course">${r.course}${r.stream && r.stream !== r.course ? ` <span class="meta">(${r.stream})</span>` : ""}</td>
+            <td class="course">${r.course}${r.stream && r.stream !== r.course ? ` <span class="meta">(${r.stream})</span>` : ""} <button type="button" class="he-save" data-he-save="course" data-kind="${g.kind}" data-institution="${String(g.institution).replace(/"/g, "&quot;")}" data-course="${String(r.course).replace(/"/g, "&quot;")}" data-code="${String(r.code || "").replace(/"/g, "&quot;")}">Save</button></td>
             <td>${r.code || "-"}</td>
             <td>${r.aggregate || "-"}</td>
             ${years.map((y) => `<td class="yr">${cell(r.cop?.[y] ?? r.cop?.[String(y)])}</td>`).join("")}
@@ -76,6 +77,7 @@ function render(allRows) {
       return head + lines;
     })
     .join("");
+  if (window.bridgingHeSaves && window.bridgingHeSaves.refresh) window.bridgingHeSaves.refresh();
 }
 
 fetch("/data/higher-ed-cutoffs.json")
@@ -105,6 +107,7 @@ fetch("/data/higher-ed-cutoffs.json")
       redraw();
     });
     redraw();
+    if (window.bridgingHeSaves && window.bridgingHeSaves.refresh) window.bridgingHeSaves.refresh();
   })
   .catch(() => {
     document.getElementById("count").textContent = "Could not load cut-off data.";

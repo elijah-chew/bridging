@@ -82,7 +82,10 @@
             <a href="/today">Daily question</a>
             <a href="/about">About</a>
           </div>
-          <a class="nav-cta" href="/signup">Start revising</a>
+          <div class="nav-auth">
+            <a class="nav-cta ghost" href="/login?redirect=/higher-education">Sign in</a>
+            <a class="nav-cta" href="/signup?redirect=/higher-education">Sign up</a>
+          </div>
         </nav>
       </div>
     </div>
@@ -128,6 +131,13 @@
           <div class="fact"><strong>ITE</strong><span>ELB4, ELR1B3, ELR2B2 and ELMAB3</span></div>
         </div>
 
+        <section class="panel" id="he-saved">
+          <span class="overline">Your list</span>
+          <h2 class="panel-title">Saved schools and <em>courses</em></h2>
+          <p class="panel-sub">One Bridging account works for E-Math revision and Higher Education. Save a school or course on the cut-off explorer, then return here.</p>
+          <div id="he-saved-list"></div>
+        </section>
+
         <p class="disclaimer">
           Bridging is not affiliated with MOE, SEAB, or any JC, polytechnic, or ITE. Cut-off points
           are historical posting scores and do not guarantee admission. Confirm the latest rules on
@@ -137,5 +147,6 @@
       <footer data-bridging-site-footer></footer>
     </div>
     <script src="/brand/site-chrome.js" defer></script>
+    <script src="/he-auth.js" defer></script>
   </body>
 </html>
