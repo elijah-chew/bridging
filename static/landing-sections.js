@@ -133,28 +133,21 @@
     "#bl-faq .bl-a p{margin:0}",
 
     /* Get started */
-    "#bl-cta .bl-wrap{padding-top:40px;padding-bottom:120px}",
-    "#bl-cta .bl-card{position:relative;overflow:hidden;border-radius:28px;background:#0a0a0a;color:#fff;padding:88px 48px;text-align:center;display:flex;flex-direction:column;align-items:center;box-shadow:0 30px 80px rgba(10,10,10,.25)}",
-    "#bl-cta .bl-card .g{position:absolute;pointer-events:none;border-radius:50%}",
-    "#bl-cta .bl-card .g1{width:620px;height:620px;left:-200px;top:-260px;background:rgba(59,130,246,.32);filter:blur(110px)}",
-    "#bl-cta .bl-card .g2{width:560px;height:560px;right:-200px;bottom:-280px;background:rgba(6,182,212,.22);filter:blur(120px)}",
-    "#bl-cta .bl-card .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(ellipse at center,#000 30%,transparent 75%);mask-image:radial-gradient(ellipse at center,#000 30%,transparent 75%)}",
-    "#bl-cta .bl-card>*{position:relative}",
-    "#bl-cta .bl-eyebrow{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.14);color:#cbd5e1}",
-    "#bl-cta .bl-eyebrow:before{background:#06b6d4;box-shadow:0 0 0 3px rgba(6,182,212,.25)}",
-    "#bl-cta h2{color:#fff;max-width:720px}",
-    "#bl-cta h2 em{color:#8fb5ff;white-space:nowrap}",
-    "#bl-cta .bl-sub{color:#a3adbd;max-width:520px}",
+    "#bl-cta .bl-wrap{padding-top:120px;padding-bottom:140px}",
+    "#bl-cta .bl-card{position:relative;text-align:center;display:flex;flex-direction:column;align-items:center}",
+    "#bl-cta .bl-glow.a{left:50%;top:-140px;margin-left:-480px}",
+    "#bl-cta .bl-glow.b{top:auto;bottom:-280px;right:8%}",
+    "#bl-cta .bl-glow.c{display:none}",
+    "#bl-cta h2{max-width:760px}",
+    "#bl-cta h2 em{white-space:nowrap}",
+    "#bl-cta .bl-sub{max-width:520px}",
     "#bl-cta .bl-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:34px}",
-    "#bl-cta .bl-btn{background:#fff;color:#0a0a0a}",
-    "#bl-cta .bl-btn:hover{box-shadow:0 16px 40px rgba(255,255,255,.18)}",
-    "#bl-cta .bl-btn.ghost{background:rgba(255,255,255,.06);color:#fff;border-color:rgba(255,255,255,.16)}",
-    "#bl-cta .bl-fine{margin-top:26px;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 22px;font:500 13px/1 Inter,sans-serif;color:#7c8798;letter-spacing:-.01em}",
+    "#bl-cta .bl-fine{margin-top:28px;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 22px;font:500 13px/1 Inter,sans-serif;color:#94a3b8;letter-spacing:-.01em}",
     "#bl-cta .bl-fine span{display:inline-flex;align-items:center;gap:8px}",
     "#bl-cta .bl-fine span:before{content:'';width:4px;height:4px;border-radius:50%;background:#3b82f6}",
 
     "@media (max-width:900px){#bl-hiw .bl-step{grid-template-columns:1fr;gap:28px}#bl-hiw .bl-step .bl-copy,#bl-hiw .bl-step.flip .bl-copy{order:-1}#bl-faq .bl-faq{grid-template-columns:1fr;gap:36px}#bl-faq .bl-faq-head{position:static}}",
-    "@media (max-width:760px){.bl .bl-wrap{padding:72px 20px}.bl .bl-glow.b{display:none}#bl-hiw .bl-steps{gap:64px;margin-top:56px}.bl .mock{padding:18px}.bl .diag{grid-template-columns:1fr;justify-items:start}.bl .opts{grid-template-columns:1fr}#bl-cta .bl-card{padding:64px 24px;border-radius:24px}#bl-cta .bl-wrap{padding-bottom:80px}}"
+    "@media (max-width:760px){.bl .bl-wrap{padding:72px 20px}.bl .bl-glow.b{display:none}#bl-hiw .bl-steps{gap:64px;margin-top:56px}.bl .mock{padding:18px}.bl .diag{grid-template-columns:1fr;justify-items:start}.bl .opts{grid-template-columns:1fr}#bl-cta .bl-wrap{padding-top:80px;padding-bottom:96px}}"
   ].join("");
 
   /* ----------------------------------------------------------------- HTML */
@@ -234,8 +227,7 @@
     '<details><summary>Why was Bridging built?<i></i></summary><div class="bl-a"><p>I was a secondary school student who struggled to find free, high-quality resources for building a solid base in math. After graduating in 2025, I built the tool I wished I had: a simple, reliable set of questions and lessons that help students learn faster.</p></div></details>' +
     '</div></div></div>';
 
-  var ctaHTML = '<div class="bl-wrap"><div class="bl-card">' +
-    '<div class="grid" aria-hidden="true"></div><div class="g g1" aria-hidden="true"></div><div class="g g2" aria-hidden="true"></div>' +
+  var ctaHTML = glows + '<div class="bl-wrap"><div class="bl-card">' +
     '<p class="bl-eyebrow">Get started</p>' +
     '<h2>Ready to bridge your <em>math gaps</em>?</h2>' +
     '<p class="bl-sub">Take the diagnostic, see your projected grade, and get a plan for the weeks that matter. Free for every Singapore student.</p>' +
