@@ -304,6 +304,37 @@ h1 em, h2 em {
   margin-top: 26px;
 }
 .hero-left .hero-actions { justify-content: flex-start; }
+.he-hero h1 { font-size: clamp(2.1rem, 5vw, 3.35rem); }
+.he-hero .lede { max-width: 560px; }
+.he-hero .hero-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  max-width: 860px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.he-hero .hero-actions .btn-sm {
+  padding: 10px 16px;
+  font-size: 13px;
+}
+.he-hero .hero-actions .btn-sm:first-child { justify-self: end; }
+.he-hero .hero-actions .btn-sm:last-child { justify-self: start; }
+.he-hero .hero-actions .btn-main {
+  padding: 16px 28px;
+  font-size: 15px;
+  min-width: 148px;
+}
+@media (max-width: 640px) {
+  .he-hero .hero-actions {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+  .he-hero .hero-actions .btn-main { order: -1; }
+  .he-hero .hero-actions .btn-sm:first-child,
+  .he-hero .hero-actions .btn-sm:last-child { justify-self: center; }
+}
 
 h2 {
   margin: 0 0 8px;

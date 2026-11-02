@@ -62,6 +62,16 @@
         '<a class="nav-cta ghost" href="/login?redirect=' + next + '">Sign in</a>' +
         '<a class="nav-cta" href="/signup?redirect=' + next + '">Sign up</a>';
     }
+    var heroCta = document.querySelector("[data-he-hero-cta]");
+    if (heroCta) {
+      if (session) {
+        heroCta.textContent = "Open dashboard";
+        heroCta.setAttribute("href", "/dashboard");
+      } else {
+        heroCta.textContent = "Sign up";
+        heroCta.setAttribute("href", "/signup?redirect=/higher-education");
+      }
+    }
   }
 
   function paintSavedPanel() {
