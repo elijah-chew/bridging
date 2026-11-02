@@ -3,97 +3,216 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Elijah Chew, founder of Bridging</title>
-    <meta name="description" content="Elijah Chew is the founder of Bridging, a free O-Level E-Math revision platform for Singapore secondary students. He built Bridging after sitting O-Levels and tutoring." />
-    <link rel="canonical" href="https://bridging.lol/elijah-chew" />
+    <script src="/bridging-tab-title.js" defer></script>
+        <title>Bridging</title>
+
+        <link rel="icon" href="/favicon.ico?v=8" sizes="32x32" />
+        <link rel="icon" type="image/png" href="/favicon.png?v=8" sizes="64x64" />
+    <meta name="title" content="About Bridging | Free O-Level E-Math" />
+    <meta
+      name="description"
+      content="Free O-Level E-Math practice, notes, and daily questions for Singapore secondary students. Built by student founder Elijah Chew."
+    />
+    <link rel="canonical" href="https://bridging.lol/about" />
     <meta name="robots" content="index, follow" />
-    <meta property="og:title" content="Elijah Chew, founder of Bridging" />
-    <meta property="og:description" content="Elijah Chew built Bridging, free O-Level E-Math practice and notes for Singapore students." />
-    <meta property="og:url" content="https://bridging.lol/elijah-chew" />
-    <meta property="og:type" content="profile" />
+    <meta property="og:title" content="About Bridging | Free O-Level E-Math" />
+    <meta
+      property="og:description"
+      content="Free O-Level E-Math practice, notes, and daily questions for Singapore secondary students. Built by student founder Elijah Chew."
+    />
+    <meta property="og:url" content="https://bridging.lol/about" />
+    <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Bridging" />
-    <link rel="icon" href="/favicon.ico?v=6" sizes="32x32" />
-    <link rel="icon" type="image/png" href="/favicon.png?v=6" sizes="64x64" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <meta property="og:image" content="https://bridging.lol/images/elijah-chew.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="About Bridging | Free O-Level E-Math" />
+    <meta
+      name="twitter:description"
+      content="Free O-Level E-Math practice, notes, and daily questions for Singapore secondary students. Built by student founder Elijah Chew."
+    />
+    <meta name="twitter:image" content="https://bridging.lol/images/elijah-chew.jpg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,wght@1,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/brand/pages.css" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@graph": [
           {
+            "@type": "AboutPage",
+            "name": "About Bridging",
+            "url": "https://bridging.lol/about",
+            "description": "Free O-Level E-Math practice, notes, and daily questions for Singapore secondary students.",
+            "mainEntity": { "@id": "https://bridging.lol/#organization" },
+            "about": { "@id": "https://bridging.lol/elijah-chew#elijah-chew" }
+          },
+          {
             "@type": "Person",
             "@id": "https://bridging.lol/elijah-chew#elijah-chew",
             "name": "Elijah Chew",
+            "givenName": "Elijah",
+            "familyName": "Chew",
+            "image": "https://bridging.lol/images/elijah-chew.jpg",
             "url": "https://bridging.lol/elijah-chew",
             "jobTitle": "Founder",
+            "description": "Elijah Chew is a Year 5 IB student at ACS (International) in Singapore and the founder of Bridging, a free O-Level E-Math revision platform. He also co-founded BentoTile.",
             "homeLocation": { "@type": "Place", "name": "Singapore" },
-            "alumniOf": { "@type": "EducationalOrganization", "name": "ACS (International)" },
-            "sameAs": ["https://elijahchew.com"],
-            "knowsAbout": ["O-Level E-Math", "Singapore secondary education", "Bridging"]
+            "nationality": { "@type": "Country", "name": "Singapore" },
+            "alumniOf": {
+              "@type": "EducationalOrganization",
+              "name": "ACS (International)",
+              "url": "https://www.acsinternational.edu.sg/"
+            },
+            "sameAs": [
+              "https://www.elijahchew.com/",
+              "https://www.linkedin.com/in/elijahchew",
+              "https://github.com/Elijah-Chew"
+            ],
+            "knowsAbout": [
+              "O-Level E-Math",
+              "Singapore secondary education",
+              "SEAB 4048",
+              "EdTech",
+              "Bridging",
+              "BentoTile"
+            ],
+            "worksFor": { "@id": "https://bridging.lol/#organization" },
+            "affiliation": {
+              "@type": "Organization",
+              "name": "BentoTile",
+              "url": "https://bentotile.com",
+              "sameAs": ["https://www.linkedin.com/company/bentotile"]
+            }
           },
           {
             "@type": "Organization",
+            "@id": "https://bridging.lol/#organization",
             "name": "Bridging",
-            "url": "https://bridging.lol",
+            "url": "https://bridging.lol/",
+            "logo": "https://bridging.lol/brand/bridging-logo-full.png",
             "description": "Free O-Level E-Math revision for Singapore secondary students, aligned to SEAB 4048.",
+            "foundingDate": "2026",
+            "foundingLocation": { "@type": "Place", "name": "Singapore" },
+            "areaServed": { "@type": "Country", "name": "Singapore" },
+            "sameAs": [
+              "https://www.linkedin.com/company/bridgingai",
+              "https://www.instagram.com/bridging.lol/",
+              "https://www.elijahchew.com/blog/introducing-bridging"
+            ],
             "founder": { "@id": "https://bridging.lol/elijah-chew#elijah-chew" }
           }
         ]
       }
     </script>
-    <style>
-      :root { color-scheme: light; }
-      * { box-sizing: border-box; }
-      body {
-        margin: 0;
-        background: #fff;
-        color: #0a0a0a;
-        font: 400 17px/1.6 Inter, sans-serif;
-      }
-      a { color: inherit; }
-      header, main, footer { max-width: 680px; margin: 0 auto; padding-left: 24px; padding-right: 24px; }
-      header { padding-top: 28px; }
-      header img { height: 28px; width: auto; display: block; }
-      main { padding-top: 40px; padding-bottom: 48px; }
-      h1 {
-        font: 800 44px/1.05 Inter, sans-serif;
-        letter-spacing: -0.04em;
-        margin: 0 0 12px;
-      }
-      .role { margin: 0 0 28px; color: #4b5563; font-size: 16px; }
-      h2 {
-        font: 700 22px/1.3 Inter, sans-serif;
-        letter-spacing: -0.02em;
-        margin: 32px 0 8px;
-      }
-      p { margin: 0 0 16px; }
-      footer {
-        border-top: 1px solid #eee;
-        padding-top: 24px;
-        padding-bottom: 32px;
-        color: #6b7280;
-        font-size: 13px;
-      }
-    </style>
   </head>
   <body>
-    <header>
-      <a href="https://bridging.lol/" aria-label="Bridging">
-        <img src="/brand/wordmark.png" alt="bridging" />
-      </a>
-    </header>
-    <main>
-      <h1>Elijah Chew</h1>
-      <p class="role">Founder of Bridging, the free O-Level E-Math revision site for Singapore students.</p>
-      <p>Elijah Chew is a 17-year-old student in Singapore and a Year 5 IB student at ACS (International). He builds Bridging, a free practice site for secondary students sitting O-Level E-Mathematics.</p>
-      <h2>Why he built Bridging</h2>
-      <p>The idea for Bridging came while he was sitting O-Levels and had started tutoring. Good E-Math practice was locked behind paid tools. Bridging is the product he shipped so a student can revise without paying for the hint.</p>
-      <p>Bridging is topic practice, notes, and a daily E-Math question, aligned to the SEAB 4048 syllabus. It is not affiliated with SEAB or the Ministry of Education. It is designed for Singapore students.</p>
-      <h2>What he has shipped</h2>
-      <p>He spent more than 150 hours building Bridging and writing notes across 17 topics. The site passed 100 signups and kept growing past 110 students using it to practise E-Math.</p>
-      <p>He also built BentoTile, a student portfolio product, with Ryusei N. and Benjamin Koh. BentoTile was named one of 10 promising youth startups at the Singapore AI Youth Festival 2026. Bridging is the product he keeps building for students who need E-Math practice they can actually open.</p>
-    </main>
-    <footer>
-      <p>© 2026 BRIDGING. Not affiliated with SEAB or MOE. Designed for Singapore students.</p>
-    </footer>
+    <div class="topbar">
+      <div class="wrap">
+        <nav class="nav" aria-label="Primary">
+          <a class="nav-brand" href="/" aria-label="Bridging home">
+            <img src="/brand/bridging-logo-full.png" alt="bridging" width="184" height="30" />
+          </a>
+          <div class="nav-links">
+            <a href="/higher-education">Higher Education</a>
+            <a href="/l1r5-calculator">Calculator</a>
+            <a href="/cut-off-points">Cut-off points</a>
+            <a href="/today">Daily question</a>
+            <a href="/about">About</a>
+          </div>
+          <a class="nav-cta" href="/signup">Start revising</a>
+        </nav>
+      </div>
+    </div>
+    <div class="wrap wrap-narrow">
+      <main>
+        <section class="hero" style="padding-bottom: 36px">
+          <span class="eyebrow">About Bridging</span>
+          <h1>Free E-Math revision,<br /><em>built by a student</em>.</h1>
+          <p class="lede">
+            Bridging is a free O-Level E-Math practice site for Singapore secondary students — topic practice,
+            notes, a daily question, and now JC, poly and ITE planning tools.
+          </p>
+        </section>
+
+        <section class="panel about-intro">
+          <img
+            class="portrait"
+            src="/images/elijah-chew.jpg"
+            alt="Portrait of Elijah Chew"
+            width="148"
+            height="148"
+            loading="eager"
+            decoding="async"
+          />
+          <div>
+            <span class="overline">Founder</span>
+            <h2 class="name">Elijah Chew</h2>
+            <p class="role">Year 5 IB student at ACS (International) · founder of Bridging · co-founder of BentoTile</p>
+          </div>
+        </section>
+
+        <div class="prose">
+        <p>
+          Bridging is a free O-Level E-Math practice site for Singapore secondary students—topic practice,
+          notes, and a daily question aligned to the SEAB syllabus. Student founder Elijah Chew built it while
+          preparing for O-Levels and tutoring, so good revision does not sit behind a paywall.
+        </p>
+
+        <h2>Why he built Bridging</h2>
+        <p>
+          The idea for Bridging came while he was sitting O-Levels and had started tutoring. Good E-Math practice was
+          locked behind paid tools. Bridging is the product he shipped so a student can revise without paying for the
+          hint.
+        </p>
+        <p>
+          Bridging is topic practice, notes, and a daily E-Math question, aligned to the SEAB syllabus. It is not
+          affiliated with SEAB or the Ministry of Education, and it is designed for Singaporean students.
+        </p>
+
+        <h2>What he has shipped</h2>
+        <p>
+          He spent more than 200 hours building Bridging and writing notes across 17 topics. The site passed 100 signups
+          and kept growing past 110 students using it to practise E-Math.
+        </p>
+        <p>
+          He also built BentoTile, a student portfolio product, with Ryusei N. and Benjamin Koh. BentoTile was named one
+          of 10 promising youth startups at the Singapore AI Youth Festival 2026. Bridging is the product he keeps
+          building for students who need E-Math practice they can actually open.
+        </p>
+
+        <nav class="social" aria-label="Elijah Chew online">
+          <a href="https://www.elijahchew.com/" rel="me noopener noreferrer" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18" />
+            </svg>
+            elijahchew.com
+          </a>
+          <a href="https://www.linkedin.com/in/elijahchew" rel="me noopener noreferrer" target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path
+                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+              />
+            </svg>
+            LinkedIn
+          </a>
+          <a href="https://github.com/Elijah-Chew" rel="me noopener noreferrer" target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path
+                d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+              />
+            </svg>
+            GitHub
+          </a>
+        </nav>
+        </div>
+      </main>
+      <footer data-bridging-site-footer></footer>
+    </div>
+    <script src="/brand/site-chrome.js" defer></script>
   </body>
 </html>

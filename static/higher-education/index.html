@@ -31,11 +31,13 @@
     <meta property="og:image" content="https://bridging.lol/brand/bridging-logo-full.png" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="Higher Education | Bridging" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,wght@1,600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/higher-education/he.css" />
+    <link rel="stylesheet" href="/brand/pages.css" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -67,49 +69,73 @@
     </script>
   </head>
   <body>
-    <div class="wrap">
-      <header>
-        <a class="brand-link" href="/" aria-label="Bridging home">
-          <img src="/brand/bridging-logo-full.png" alt="bridging" width="320" height="52" />
-        </a>
-        <nav class="site-nav" aria-label="Higher education">
-          <a href="/higher-education" aria-current="page">Higher Education</a>
-          <a href="/l1r5-calculator">L1R5/4 Calculator</a>
-          <a href="/cut-off-points">Cut-off points</a>
-          <a href="/about">About</a>
+    <div class="topbar">
+      <div class="wrap">
+        <nav class="nav" aria-label="Primary">
+          <a class="nav-brand" href="/" aria-label="Bridging home">
+            <img src="/brand/bridging-logo-full.png" alt="bridging" width="184" height="30" />
+          </a>
+          <div class="nav-links">
+            <a href="/higher-education">Higher Education</a>
+            <a href="/l1r5-calculator">Calculator</a>
+            <a href="/cut-off-points">Cut-off points</a>
+            <a href="/today">Daily question</a>
+            <a href="/about">About</a>
+          </div>
+          <a class="nav-cta" href="/signup">Start revising</a>
         </nav>
-      </header>
+      </div>
+    </div>
+    <div class="wrap">
       <main>
-        <p class="kicker">Singapore post-secondary</p>
-        <h1>Higher Education</h1>
-        <p class="lede">
-          Work out your O-Level or future Secondary Education Certificate aggregate, then see how
-          junior colleges, polytechnics, and ITE courses have posted over the last decade.
-        </p>
-        <div class="cards">
-          <a class="card" href="/l1r5-calculator">
+        <section class="hero">
+          <span class="eyebrow">Singapore post-secondary · JAE</span>
+          <h1>Plan your <em>next step</em><br />after O-Levels.</h1>
+          <p class="lede">
+            Work out your aggregate, then see how junior colleges, polytechnics, and ITE courses
+            have actually posted over the last decade — free, and built for Singapore students.
+          </p>
+          <div class="hero-actions">
+            <a class="btn" href="/l1r5-calculator">Calculate my aggregate →</a>
+            <a class="btn btn-light" href="/cut-off-points">Browse cut-off points</a>
+          </div>
+        </section>
+
+        <div class="tool-grid">
+          <a class="tool-card" href="/l1r5-calculator">
+            <span class="overline">Aggregate calculator</span>
             <h2>L1R5/4 JC and Poly/ITE Aggregate Calculator</h2>
             <p>
-              L1R5 for today’s JC posting, L1R4 for Millennia Institute and the 2028 JC/MI rules,
-              plus ELR2B2-A to D for polytechnic.
+              Enter G3, G2, and G1 grades once. Get JC L1R5 and L1R4, polytechnic ELR2B2-A to D,
+              and ITE aggregates including ELMAB3 — with CCA and bonus points applied.
             </p>
+            <span class="cta">Open calculator</span>
           </a>
-          <a class="card" href="/cut-off-points">
+          <a class="tool-card cyan" href="/cut-off-points">
+            <span class="overline">Historical data · 2014–2026</span>
             <h2>JC, Polytechnic, and ITE Historical Cut off points</h2>
             <p>
-              Searchable database of JAE net cut-off points for JC arts and science, poly diplomas,
-              and ITE Higher Nitec courses.
+              Search by school or course and compare JAE net cut-offs year by year, grouped by
+              institution, so you can see where your aggregate has landed before.
             </p>
+            <span class="cta">Explore cut-offs</span>
           </a>
         </div>
+
+        <div class="fact-strip" aria-label="What is covered">
+          <div class="fact"><strong>JC · MI</strong><span>L1R5 today, L1R4 from 2028</span></div>
+          <div class="fact"><strong>Polytechnic</strong><span>ELR2B2-A to D, PFP via ELMAB3</span></div>
+          <div class="fact"><strong>ITE</strong><span>ELB4, ELR1B3, ELR2B2 and ELMAB3</span></div>
+        </div>
+
         <p class="disclaimer">
           Bridging is not affiliated with MOE, SEAB, or any JC, polytechnic, or ITE. Cut-off points
-          are historical posting scores and do not guarantee admission. Always confirm the latest
-          rules on the MOE CourseFinder and JAE booklets.
+          are historical posting scores and do not guarantee admission. Confirm the latest rules on
+          MOE CourseFinder and the JAE booklet.
         </p>
       </main>
       <footer data-bridging-site-footer></footer>
     </div>
-    <script src="/higher-education/site-footer.js" defer></script>
+    <script src="/brand/site-chrome.js" defer></script>
   </body>
 </html>

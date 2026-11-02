@@ -36,11 +36,13 @@
       name="twitter:description"
       content="Free JC, polytechnic, and ITE aggregate calculator for Singapore students — L1R5, L1R4, ELR2B2, ELMAB3, and more."
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,wght@1,600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/higher-education/he.css" />
+    <link rel="stylesheet" href="/brand/pages.css" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -99,72 +101,98 @@
     </script>
   </head>
   <body class="he-calc">
-    <div class="wrap">
-      <header>
-        <a class="brand-link" href="/" aria-label="Bridging home">
-          <img src="/brand/bridging-logo-full.png" alt="bridging" width="320" height="52" />
-        </a>
-        <nav class="site-nav" aria-label="Higher education">
-          <a href="/higher-education">Higher Education</a>
-          <a href="/l1r5-calculator" aria-current="page">L1R5/4 Calculator</a>
-          <a href="/cut-off-points">Cut-off points</a>
-          <a href="/about">About</a>
+    <div class="topbar">
+      <div class="wrap">
+        <nav class="nav" aria-label="Primary">
+          <a class="nav-brand" href="/" aria-label="Bridging home">
+            <img src="/brand/bridging-logo-full.png" alt="bridging" width="184" height="30" />
+          </a>
+          <div class="nav-links">
+            <a href="/higher-education">Higher Education</a>
+            <a href="/l1r5-calculator">Calculator</a>
+            <a href="/cut-off-points">Cut-off points</a>
+            <a href="/today">Daily question</a>
+            <a href="/about">About</a>
+          </div>
+          <a class="nav-cta" href="/signup">Start revising</a>
         </nav>
-      </header>
+      </div>
+    </div>
+    <div class="wrap">
       <main>
-        <p class="kicker">Aggregate bridging calculator</p>
-        <h1>L1R5/4 JC and Poly/ITE Aggregate Calculator</h1>
-        <p class="lede">
-          Enter each subject as G3, G2, or G1. One sheet covers JC L1R5/L1R4, polytechnic ELR2B2-A to D,
-          ITE ELB4 / ELR1B3 / ELR2B2, and ELMAB3.
-        </p>
+        <section class="hero">
+          <span class="eyebrow">Aggregate calculator · JC · Poly · ITE</span>
+          <h1>L1R5/4 JC and Poly/ITE<br /><em>Aggregate</em> Calculator</h1>
+          <p class="lede">
+            Enter each subject as G3, G2, or G1. One sheet gives you JC L1R5 and L1R4, polytechnic
+            ELR2B2-A to D, and ITE ELB4, ELR1B3, ELR2B2 and ELMAB3.
+          </p>
+        </section>
 
-        <div class="toolbar filters">
-          <div class="field">
-            <label for="system">Posting rules</label>
-            <select id="system">
-              <option value="olevel">Current JAE</option>
-              <option value="sec">From 2028 (SEC)</option>
-            </select>
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <span class="overline">Step 1</span>
+              <h2 class="panel-title">Your subjects</h2>
+              <p class="panel-sub">Pick each subject, its level, and the grade you got or expect.</p>
+            </div>
+            <div class="field">
+              <label for="system">Posting rules</label>
+              <select id="system">
+                <option value="olevel">Current JAE</option>
+                <option value="sec">From 2028 (SEC)</option>
+              </select>
+            </div>
           </div>
-        </div>
 
-        <div class="subjects-sheet">
-          <div class="subjects-head" aria-hidden="true">
-            <span>Subject</span>
-            <span>Level</span>
-            <span>Grade</span>
-            <span class="sr-only">Remove</span>
+          <div class="subjects-sheet">
+            <div class="subjects-head" aria-hidden="true">
+              <span>Subject</span>
+              <span>Level</span>
+              <span>Grade</span>
+              <span class="sr-only">Remove</span>
+            </div>
+            <div id="subjects" class="subjects"></div>
           </div>
-          <div id="subjects" class="subjects"></div>
-        </div>
-        <div class="toolbar">
-          <button type="button" class="ghost" id="add-subject">Add subject</button>
-        </div>
+          <div class="toolbar add-row">
+            <button type="button" class="ghost" id="add-subject">+ Add subject</button>
+          </div>
+        </section>
 
-        <h2>Bonus points</h2>
-        <div class="bonus">
-          <div class="field">
-            <label for="cca">CCA grade</label>
-            <select id="cca">
-              <option value="0">None</option>
-              <option value="1">Good (1 point)</option>
-              <option value="2">Excellent (2 points)</option>
-            </select>
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <span class="overline">Step 2</span>
+              <h2 class="panel-title">Bonus points</h2>
+              <p class="panel-sub">Deducted from your gross aggregate according to MOE caps.</p>
+            </div>
           </div>
-          <label class="check"><input type="checkbox" id="hmtl-pass" /> Passed Higher Mother Tongue (pass/fail bonus)</label>
-          <label class="check"><input type="checkbox" id="affiliated" /> Affiliated school</label>
-          <label class="check"><input type="checkbox" id="lep" /> Language Elective Programme (JC)</label>
-        </div>
+          <div class="bonus">
+            <div class="field">
+              <label for="cca">CCA grade</label>
+              <select id="cca">
+                <option value="0">None</option>
+                <option value="1">Good (1 point)</option>
+                <option value="2">Excellent (2 points)</option>
+              </select>
+            </div>
+            <label class="check"><input type="checkbox" id="hmtl-pass" /> Passed Higher Mother Tongue</label>
+            <label class="check"><input type="checkbox" id="affiliated" /> Affiliated school</label>
+            <label class="check"><input type="checkbox" id="lep" /> Language Elective Programme</label>
+          </div>
+        </section>
 
         <div id="results" class="results" aria-live="polite"></div>
         <p id="breakdown" class="meta"></p>
 
-        <h2>How the aggregates work</h2>
+        <section style="margin-top: 40px">
+          <span class="overline">Reference</span>
+          <h2>How the aggregates work</h2>
+          <p class="panel-sub" style="margin: 0 0 16px">Short version of the MOE posting rules used above.</p>
         <ul class="aggregate-help">
           <li>
             <strong>L1R5 (JC today)</strong> — English plus five relevant G3 subjects (include humanities and
-            math/science). Higher Mother Tongue is pass/fail only; tick the bonus below.
+            math/science). Higher Mother Tongue is pass/fail only; tick the bonus above.
           </li>
           <li>
             <strong>L1R4 (from 2028)</strong> — G3 English, humanities, math/science, and two other eligible
@@ -184,10 +212,11 @@
           changes. It does not check course-specific minimum entry grades. Confirm figures against the
           latest MOE JAE booklet.
         </p>
+        </section>
       </main>
       <footer data-bridging-site-footer></footer>
     </div>
-    <script src="/higher-education/site-footer.js" defer></script>
+    <script src="/brand/site-chrome.js" defer></script>
     <script src="/l1r5-calculator/calculator.js" defer></script>
   </body>
 </html>

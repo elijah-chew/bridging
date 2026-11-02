@@ -32,10 +32,13 @@
       name="twitter:description"
       content="Search 10+ years of Singapore JAE net cut-off points for JC, polytechnic diplomas, and ITE Higher Nitec courses."
     />
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,wght@1,600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/higher-education/he.css" />
+    <link rel="stylesheet" href="/brand/pages.css" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -50,58 +53,73 @@
     </script>
   </head>
   <body>
-    <div class="wrap">
-      <header>
-        <a class="brand-link" href="/" aria-label="Bridging home">
-          <img src="/brand/bridging-logo-full.png" alt="bridging" width="320" height="52" />
-        </a>
-        <nav class="site-nav" aria-label="Higher education">
-          <a href="/higher-education">Higher Education</a>
-          <a href="/l1r5-calculator">L1R5/4 Calculator</a>
-          <a href="/cut-off-points" aria-current="page">Cut-off points</a>
-          <a href="/about">About</a>
+    <div class="topbar">
+      <div class="wrap">
+        <nav class="nav" aria-label="Primary">
+          <a class="nav-brand" href="/" aria-label="Bridging home">
+            <img src="/brand/bridging-logo-full.png" alt="bridging" width="184" height="30" />
+          </a>
+          <div class="nav-links">
+            <a href="/higher-education">Higher Education</a>
+            <a href="/l1r5-calculator">Calculator</a>
+            <a href="/cut-off-points">Cut-off points</a>
+            <a href="/today">Daily question</a>
+            <a href="/about">About</a>
+          </div>
+          <a class="nav-cta" href="/signup">Start revising</a>
         </nav>
-      </header>
+      </div>
+    </div>
+    <div class="wrap wrap-wide">
       <main>
-        <p class="kicker">JAE posting history</p>
-        <h1>JC, Polytechnic, and ITE Historical Cut off points</h1>
-        <p class="lede">
-          Net cut-off of the last student posted. Lower is more competitive. JC figures are L1R5
-          (MI uses L1R4). Polytechnic figures are ELR2B2. Empty cells mean no published figure for
-          that year (merged colleges, new courses, or missing open data).
-        </p>
-        <div class="toolbar filters">
-          <div class="field grow-field">
-            <label for="q">Search</label>
-            <input class="search" id="q" type="search" placeholder="School, course, or code" />
+        <section class="hero">
+          <span class="eyebrow">JAE posting history · 2014–2026</span>
+          <h1>JC, Polytechnic, and ITE<br /><em>Historical</em> Cut off points</h1>
+          <p class="lede">
+            Net aggregate of the last student posted — lower is more competitive. JC figures are
+            L1R5 (MI uses L1R4); polytechnic figures are ELR2B2. Empty cells mean no published
+            figure for that year.
+          </p>
+        </section>
+
+        <section class="panel">
+          <div class="toolbar filters">
+            <div class="field grow-field">
+              <label for="q">Search</label>
+              <input class="search" id="q" type="search" placeholder="School, course, or code" />
+            </div>
+            <div class="field">
+              <label for="kind">Pathway</label>
+              <select id="kind">
+                <option value="all">All</option>
+                <option value="jc">JC / MI / IP JC</option>
+                <option value="poly">Polytechnic</option>
+                <option value="ite">ITE</option>
+              </select>
+            </div>
+            <div class="field grow-field">
+              <label for="school">School</label>
+              <select id="school">
+                <option value="">All schools</option>
+              </select>
+            </div>
+            <button type="button" class="ghost" id="expand-years" aria-pressed="false">
+              Show 2014–2022
+            </button>
           </div>
-          <div class="field">
-            <label for="kind">Pathway</label>
-            <select id="kind">
-              <option value="all">All</option>
-              <option value="jc">JC / MI / IP JC</option>
-              <option value="poly">Polytechnic</option>
-              <option value="ite">ITE</option>
-            </select>
+        </section>
+
+        <section class="panel">
+          <p id="count" class="meta count"></p>
+          <div class="table-wrap">
+            <table>
+              <thead id="head"></thead>
+              <tbody id="body"></tbody>
+            </table>
           </div>
-          <div class="field grow-field">
-            <label for="school">School</label>
-            <select id="school">
-              <option value="">All schools</option>
-            </select>
-          </div>
-          <button type="button" class="ghost" id="expand-years" aria-pressed="false">
-            Show 2014–2022
-          </button>
-        </div>
-        <p id="count" class="meta"></p>
-        <div class="table-wrap">
-          <table>
-            <thead id="head"></thead>
-            <tbody id="body"></tbody>
-          </table>
-        </div>
-        <p class="disclaimer" style="margin-top: 20px">
+        </section>
+
+        <p class="disclaimer">
           JC 2014–2026 compiled from published JAE L1R5 tables. Polytechnic 2026 ranges from MOE
           JAE course lists; Nanyang Polytechnic 2014–2026 and Ngee Ann Polytechnic selected years
           from data.gov.sg. ITE lists 2026 JAE Higher Nitec net aggregates where published. Figures
@@ -111,7 +129,7 @@
       </main>
       <footer data-bridging-site-footer></footer>
     </div>
-    <script src="/higher-education/site-footer.js" defer></script>
+    <script src="/brand/site-chrome.js" defer></script>
     <script src="/cut-off-points/explorer.js" defer></script>
   </body>
 </html>

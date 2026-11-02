@@ -357,7 +357,7 @@ function renderTable(rows) {
     <thead><tr><th>Aggregate</th><th>Net</th><th>Gross</th><th>Bonus</th><th>Guide</th></tr></thead>
     <tbody>${rows.map((r) => `<tr>
       <td><strong>${r.name}</strong><div class="meta">${breakdown(r.sel)}</div></td>
-      <td class="num">${r.net == null ? "—" : r.net}</td>
+      <td class="num net">${r.net == null ? "—" : r.net}</td>
       <td class="num">${r.sel ? r.sel.gross : "—"}</td>
       <td class="num">−${r.bonus}</td>
       <td>${r.guide}</td>
@@ -476,9 +476,9 @@ function compute() {
   ];
 
   document.getElementById("results").innerHTML = `
-    <section><h2>JC / MI</h2>${renderTable(jcRows)}</section>
-    <section><h2>Polytechnic</h2>${renderTable(polyRows)}</section>
-    <section><h2>ITE</h2>${renderTable(iteRows)}</section>`;
+    <section class="panel"><span class="overline">Results</span><h2>JC / MI</h2>${renderTable(jcRows)}</section>
+    <section class="panel"><span class="overline">Results</span><h2>Polytechnic</h2>${renderTable(polyRows)}</section>
+    <section class="panel"><span class="overline">Results</span><h2>ITE</h2>${renderTable(iteRows)}</section>`;
 
   function row(name, sel, bonus, guide) {
     return { name, sel, bonus, net: sel ? sel.gross - bonus : null, guide };

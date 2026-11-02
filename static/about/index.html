@@ -31,7 +31,13 @@
       content="Free O-Level E-Math practice, notes, and daily questions for Singapore secondary students. Built by student founder Elijah Chew."
     />
     <meta name="twitter:image" content="https://bridging.lol/images/elijah-chew.jpg" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,wght@1,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/brand/pages.css" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -102,168 +108,54 @@
         ]
       }
     </script>
-    <style>
-      :root {
-        color-scheme: light;
-        --text: #0a0a0a;
-        --muted: #4b5563;
-        --border: #e5e7eb;
-        --surface: #f9fafb;
-        --accent: #2f62fd;
-      }
-      * {
-        box-sizing: border-box;
-      }
-      body {
-        margin: 0;
-        background: #fff;
-        color: var(--text);
-        font: 400 17px/1.65 Inter, system-ui, sans-serif;
-      }
-      a {
-        color: inherit;
-      }
-      .wrap {
-        max-width: 720px;
-        margin: 0 auto;
-        padding: 0 24px;
-      }
-      header {
-        padding: 28px 0 8px;
-      }
-      .brand-link {
-        display: inline-block;
-        line-height: 0;
-      }
-      .brand-link img {
-        display: block;
-        height: clamp(36px, 6vw, 52px);
-        width: auto;
-        max-width: min(100%, 320px);
-        image-rendering: -webkit-optimize-contrast;
-      }
-      main {
-        padding: 32px 0 40px;
-      }
-      .intro {
-        display: grid;
-        grid-template-columns: 140px 1fr;
-        gap: 24px;
-        align-items: start;
-        margin-bottom: 8px;
-      }
-      .portrait {
-        width: 140px;
-        aspect-ratio: 1;
-        border-radius: 20px;
-        object-fit: cover;
-        object-position: center top;
-        border: 1px solid var(--border);
-        box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
-      }
-      h1 {
-        font: 800 clamp(2rem, 5vw, 2.75rem) / 1.05 Inter, sans-serif;
-        letter-spacing: -0.04em;
-        margin: 0 0 10px;
-      }
-      .role {
-        margin: 0;
-        color: var(--muted);
-        font-size: 16px;
-        line-height: 1.55;
-      }
-      h2 {
-        font: 700 22px/1.3 Inter, sans-serif;
-        letter-spacing: -0.02em;
-        margin: 36px 0 10px;
-      }
-      p {
-        margin: 0 0 16px;
-      }
-      .social {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 32px;
-        padding-top: 28px;
-        border-top: 1px solid var(--border);
-      }
-      .social a {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 14px;
-        border-radius: 999px;
-        border: 1px solid var(--border);
-        background: var(--surface);
-        font-size: 14px;
-        font-weight: 500;
-        text-decoration: none;
-        transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
-      }
-      .social a:hover {
-        border-color: #cbd5e1;
-        background: #fff;
-        transform: translateY(-1px);
-      }
-      .social svg {
-        width: 16px;
-        height: 16px;
-        flex-shrink: 0;
-        opacity: 0.85;
-      }
-      footer {
-        border-top: 1px solid var(--border);
-        padding: 24px 0 36px;
-        color: #6b7280;
-        font-size: 13px;
-      }
-      @media (max-width: 560px) {
-        .intro {
-          grid-template-columns: 1fr;
-          justify-items: center;
-          text-align: center;
-        }
-        .portrait {
-          width: 168px;
-        }
-        .social {
-          justify-content: center;
-        }
-      }
-    </style>
   </head>
   <body>
-    <div class="wrap">
-      <header>
-        <a class="brand-link" href="https://bridging.lol/" aria-label="Bridging home">
-          <img
-            src="/brand/bridging-logo-full.png"
-            srcset="/brand/bridging-logo-full.png 1x, /brand/bridging-logo-full.png 2x"
-            alt="bridging"
-            width="320"
-            height="52"
-            decoding="async"
-          />
-        </a>
-      </header>
+    <div class="topbar">
+      <div class="wrap">
+        <nav class="nav" aria-label="Primary">
+          <a class="nav-brand" href="/" aria-label="Bridging home">
+            <img src="/brand/bridging-logo-full.png" alt="bridging" width="184" height="30" />
+          </a>
+          <div class="nav-links">
+            <a href="/higher-education">Higher Education</a>
+            <a href="/l1r5-calculator">Calculator</a>
+            <a href="/cut-off-points">Cut-off points</a>
+            <a href="/today">Daily question</a>
+            <a href="/about">About</a>
+          </div>
+          <a class="nav-cta" href="/signup">Start revising</a>
+        </nav>
+      </div>
+    </div>
+    <div class="wrap wrap-narrow">
       <main>
-        <div class="intro">
+        <section class="hero" style="padding-bottom: 36px">
+          <span class="eyebrow">About Bridging</span>
+          <h1>Free E-Math revision,<br /><em>built by a student</em>.</h1>
+          <p class="lede">
+            Bridging is a free O-Level E-Math practice site for Singapore secondary students — topic practice,
+            notes, a daily question, and now JC, poly and ITE planning tools.
+          </p>
+        </section>
+
+        <section class="panel about-intro">
           <img
             class="portrait"
             src="/images/elijah-chew.jpg"
             alt="Portrait of Elijah Chew"
-            width="140"
-            height="140"
+            width="148"
+            height="148"
             loading="eager"
             decoding="async"
           />
           <div>
-            <h1>About Bridging</h1>
-            <p class="role">Elijah Chew · Founder · Free O-Level E-Math for Singapore students</p>
+            <span class="overline">Founder</span>
+            <h2 class="name">Elijah Chew</h2>
+            <p class="role">Year 5 IB student at ACS (International) · founder of Bridging · co-founder of BentoTile</p>
           </div>
-        </div>
+        </section>
 
+        <div class="prose">
         <p>
           Bridging is a free O-Level E-Math practice site for Singapore secondary students—topic practice,
           notes, and a daily question aligned to the SEAB syllabus. Student founder Elijah Chew built it while
@@ -317,10 +209,10 @@
             GitHub
           </a>
         </nav>
+        </div>
       </main>
-      <footer>
-        <p>© 2026 Bridging. Not affiliated with SEAB or MOE. Designed for Singapore students.</p>
-      </footer>
+      <footer data-bridging-site-footer></footer>
     </div>
+    <script src="/brand/site-chrome.js" defer></script>
   </body>
 </html>
