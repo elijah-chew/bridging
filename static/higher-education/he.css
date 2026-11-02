@@ -191,10 +191,10 @@ button:hover { filter: brightness(0.96); }
 html.he-calc .subjects-head,
 html.he-calc .subject-row {
   display: grid;
-  grid-template-columns: minmax(140px, 1fr) minmax(128px, 200px) 72px 80px 40px;
+  grid-template-columns: minmax(200px, 1fr) 72px 80px 40px;
   gap: 10px;
   align-items: center;
-  min-width: 700px;
+  min-width: 420px;
 }
 html.he-calc .wrap {
   max-width: 860px;
@@ -208,11 +208,20 @@ html.he-calc .subjects-head {
   margin-bottom: 4px;
   padding-right: 2px;
 }
-html.he-calc .subject-row select,
+html.he-calc .subject-row select.pick,
 html.he-calc .subject-row input.name {
   width: 100%;
   min-width: 0;
 }
+html.he-calc .aggregate-help {
+  margin: 0 0 16px;
+  padding-left: 1.15em;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.55;
+}
+html.he-calc .aggregate-help li { margin-bottom: 8px; }
+html.he-calc .aggregate-help strong { color: var(--text); }
 html.he-calc .subject-row .band,
 html.he-calc .subject-row .grade {
   padding-left: 8px;
@@ -256,14 +265,12 @@ html.he-calc .subject-row .grow { min-width: 0; }
   html.he-calc .subjects-sheet { overflow-x: visible; }
   html.he-calc .subject-row {
     min-width: 0;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 40px;
     grid-template-areas:
-      "name name"
-      "cat level"
-      "grade remove";
+      "pick pick pick"
+      "level grade remove";
   }
-  html.he-calc .subject-row .name { grid-area: name; }
-  html.he-calc .subject-row .cat { grid-area: cat; }
+  html.he-calc .subject-row .pick { grid-area: pick; }
   html.he-calc .subject-row .band { grid-area: level; }
   html.he-calc .subject-row .grade { grid-area: grade; }
   html.he-calc .subject-row .row-remove { grid-area: remove; justify-self: end; }

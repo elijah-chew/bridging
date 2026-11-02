@@ -1,21 +1,87 @@
-const SUBJECTS = [
-  { name: "English", cat: "el" },
-  { name: "Mother Tongue", cat: "mtl" },
-  { name: "Elementary Mathematics", cat: "math" },
-  { name: "Additional Mathematics", cat: "math" },
-  { name: "Combined Humanities", cat: "hum" },
-  { name: "Combined Science", cat: "sci" },
-  { name: "Physics", cat: "sci" },
+const DEFAULT_ROWS = [
+  { cat: "el", name: "English Language" },
+  { cat: "mtl", name: "Chinese" },
+  { cat: "math", name: "Elementary Mathematics" },
+  { cat: "math", name: "Additional Mathematics" },
+  { cat: "hum", name: "Combined Humanities" },
+  { cat: "sci", name: "Combined Science" },
+  { cat: "sci", name: "Physics" },
 ];
 
-const CATS = [
-  ["el", "English"],
-  ["mtl", "Mother Tongue"],
-  ["hum", "Humanities"],
-  ["math", "Mathematics"],
-  ["sci", "Science"],
-  ["poa", "POA"],
+/** O-Level subjects grouped for the picker (optgroup = category). */
+const O_LEVEL_CATALOG = [
+  { group: "English", cat: "el", subjects: ["English Language"] },
+  {
+    group: "Mother Tongue",
+    cat: "mtl",
+    subjects: ["Chinese", "Malay", "Tamil", "Chinese (Special Programme)", "Malay (Special Programme)"],
+  },
+  {
+    group: "Humanities",
+    cat: "hum",
+    subjects: [
+      "Combined Humanities",
+      "Geography",
+      "History",
+      "Literature in English",
+      "Social Studies",
+    ],
+  },
+  {
+    group: "Mathematics",
+    cat: "math",
+    subjects: ["Elementary Mathematics", "Additional Mathematics"],
+  },
+  {
+    group: "Science",
+    cat: "sci",
+    subjects: [
+      "Combined Science",
+      "Physics",
+      "Chemistry",
+      "Biology",
+      "Science (Physics, Chemistry)",
+      "Science (Physics, Biology)",
+      "Science (Chemistry, Biology)",
+    ],
+  },
+  { group: "POA", cat: "poa", subjects: ["Principles of Accounts"] },
 ];
+
+const SUBJECT_VAL_SEP = "\x1e";
+
+function subjectOptionValue(cat, name) {
+  return `${cat}${SUBJECT_VAL_SEP}${name}`;
+}
+
+function parseSubjectOptionValue(value) {
+  const i = value.indexOf(SUBJECT_VAL_SEP);
+  if (i < 0) return null;
+  return { cat: value.slice(0, i), name: value.slice(i + 1) };
+}
+
+function buildSubjectPick(select, preset) {
+  select.innerHTML = "";
+  const blank = document.createElement("option");
+  blank.value = "";
+  blank.textContent = "Choose subject";
+  select.appendChild(blank);
+  for (const block of O_LEVEL_CATALOG) {
+    const group = document.createElement("optgroup");
+    group.label = block.group;
+    for (const name of block.subjects) {
+      const o = document.createElement("option");
+      o.value = subjectOptionValue(block.cat, name);
+      o.textContent = name;
+      group.appendChild(o);
+    }
+    select.appendChild(group);
+  }
+  if (preset) {
+    const want = subjectOptionValue(preset.cat, preset.name);
+    if ([...select.options].some((o) => o.value === want)) select.value = want;
+  }
+}
 
 const HUM = new Set(["hum"]);
 const MATHSCI = new Set(["math", "sci"]);
@@ -92,12 +158,20 @@ function restOf(subjects, used, usedHmtl) {
 }
 
 function parseRows() {
-  return [...document.querySelectorAll(".subject-row")].map((row) => ({
-    name: row.querySelector(".name").value.trim(),
-    cat: row.querySelector(".cat").value,
-    band: row.querySelector(".band").value,
-    grade: Number(row.querySelector(".grade").value),
-  })).filter((s) => s.name && s.grade >= 1);
+  return [...document.querySelectorAll(".subject-row")]
+    .map((row) => {
+      const meta = parseSubjectOptionValue(row.querySelector(".pick").value);
+      if (!meta) return null;
+      const grade = Number(row.querySelector(".grade").value);
+      if (grade < 1) return null;
+      return {
+        name: meta.name,
+        cat: meta.cat,
+        band: row.querySelector(".band").value,
+        grade,
+      };
+    })
+    .filter(Boolean);
 }
 
 function g3Only(subjects) {
@@ -294,19 +368,9 @@ function renderTable(rows) {
 function addRow(preset) {
   const row = document.createElement("div");
   row.className = "subject-row";
-  const name = document.createElement("input");
-  name.className = "name grow";
-  name.value = preset?.name || "";
-  name.placeholder = "Subject";
-  const cat = document.createElement("select");
-  cat.className = "cat";
-  for (const [value, label] of CATS) {
-    const o = document.createElement("option");
-    o.value = value;
-    o.textContent = label;
-    cat.appendChild(o);
-  }
-  cat.value = preset?.cat || "sci";
+  const pick = document.createElement("select");
+  pick.className = "pick grow";
+  buildSubjectPick(pick, preset);
   const band = document.createElement("select");
   band.className = "band";
   for (const [value, label] of [
@@ -336,9 +400,8 @@ function addRow(preset) {
     row.remove();
     compute();
   });
-  row.append(name, cat, band, grade, remove);
+  row.append(pick, band, grade, remove);
   row.addEventListener("change", compute);
-  row.addEventListener("input", compute);
   document.getElementById("subjects").appendChild(row);
   syncBands();
 }
@@ -430,5 +493,5 @@ document.getElementById("add-subject").addEventListener("click", () => {
   document.getElementById(id).addEventListener("change", compute);
 });
 
-SUBJECTS.forEach((s) => addRow(s));
+DEFAULT_ROWS.forEach((s) => addRow(s));
 compute();
