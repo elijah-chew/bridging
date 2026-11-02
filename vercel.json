@@ -4,7 +4,16 @@
   "installCommand": "npm install",
   "framework": null,
   "outputDirectory": "static",
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.bridging.lol" }],
+      "destination": "https://bridging.lol/:path*",
+      "permanent": true
+    }
+  ],
   "rewrites": [
+    { "source": "/api/api/(.*)", "destination": "/api/$1" },
     { "source": "/api/health", "destination": "/api/health" },
     { "source": "/api/practice/mark", "destination": "/api/practice/mark" },
     { "source": "/api/practice/daily", "destination": "/api/practice/daily" },
@@ -18,9 +27,17 @@
     { "source": "/api/questions/:action", "destination": "/api/bridge?kind=questions&action=:action" },
     { "source": "/api/auth/(.*)", "destination": "/api/auth/[...path]" },
     { "source": "/today", "destination": "/today/index.html" },
+    { "source": "/about", "destination": "/elijah-chew/index.html" },
+    { "source": "/about/", "destination": "/elijah-chew/index.html" },
     { "source": "/elijah-chew", "destination": "/elijah-chew/index.html" },
     { "source": "/elijah-chew/", "destination": "/elijah-chew/index.html" },
-    { "source": "/((?!api/|today|elijah-chew).*)", "destination": "/index.html" }
+    { "source": "/higher-education", "destination": "/higher-education/index.html" },
+    { "source": "/higher-education/", "destination": "/higher-education/index.html" },
+    { "source": "/l1r5-calculator", "destination": "/l1r5-calculator/index.html" },
+    { "source": "/l1r5-calculator/", "destination": "/l1r5-calculator/index.html" },
+    { "source": "/cut-off-points", "destination": "/cut-off-points/index.html" },
+    { "source": "/cut-off-points/", "destination": "/cut-off-points/index.html" },
+    { "source": "/((?!api/|today|elijah-chew|higher-education|l1r5-calculator|cut-off-points|home-mobile\\.css).*)", "destination": "/index.html" }
   ],
   "headers": [
     {
@@ -30,6 +47,62 @@
         { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization" },
         { "key": "Access-Control-Allow-Credentials", "value": "true" }
       ]
+    },
+    {
+      "source": "/dashboard",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    },
+    {
+      "source": "/dashboard/(.*)",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    },
+    {
+      "source": "/practice",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    },
+    {
+      "source": "/practice/(.*)",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    },
+    {
+      "source": "/notes",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    },
+    {
+      "source": "/notes/(.*)",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    },
+    {
+      "source": "/topics",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    },
+    {
+      "source": "/topics/(.*)",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    },
+    {
+      "source": "/account",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    },
+    {
+      "source": "/account/(.*)",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    },
+    {
+      "source": "/analytics",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    },
+    {
+      "source": "/analytics/(.*)",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    },
+    {
+      "source": "/admin",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    },
+    {
+      "source": "/admin/(.*)",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
     }
   ]
 }

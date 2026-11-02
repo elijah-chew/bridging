@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="/bridging-tab-title.js" defer></script>
+    <title>L1R5/4 Calculator | Bridging</title>
+    <link rel="icon" href="/favicon.ico?v=8" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/favicon.png?v=8" sizes="64x64" />
+    <meta
+      name="title"
+      content="L1R5/4 Calculator | O-Level and SEC Aggregate | Bridging"
+    />
+    <meta
+      name="description"
+      content="Free L1R5 calculator and L1R4 calculator for Singapore O-Level and the revised Secondary Education Certificate. Work out JC, MI, polytechnic ELR2B2, and ITE aggregates with bonus points."
+    />
+    <meta
+      name="keywords"
+      content="L1R5 calculator, L1R4 calculator, ELR2B2 calculator, O Level aggregate, SEC calculator, JC cut off, Singapore"
+    />
+    <link rel="canonical" href="https://bridging.lol/l1r5-calculator" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="L1R5/4 Calculator | Bridging" />
+    <meta
+      property="og:description"
+      content="Calculate L1R5, L1R4 (including 2028 JC rules), and ELR2B2-A to D from your O-Level or SEC grades."
+    />
+    <meta property="og:url" content="https://bridging.lol/l1r5-calculator" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Bridging" />
+    <meta property="og:image" content="https://bridging.lol/brand/bridging-logo-full.png" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="L1R5 calculator | Bridging" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/higher-education/he.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebApplication",
+            "name": "L1R5/4 Calculator",
+            "url": "https://bridging.lol/l1r5-calculator",
+            "applicationCategory": "EducationalApplication",
+            "operatingSystem": "Any",
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "SGD" },
+            "description": "Free L1R5, L1R4 and ELR2B2 calculator for Singapore O-Level and the Secondary Education Certificate.",
+            "audience": { "@type": "EducationalAudience", "educationalRole": "student" },
+            "isPartOf": { "@type": "WebSite", "name": "Bridging", "url": "https://bridging.lol/" }
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What is L1R5?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "L1R5 is the O-Level aggregate used for junior college posting: English or Higher Mother Tongue plus five relevant subjects. A lower score is better. JC eligibility is a net L1R5 of 20 or better after bonus points."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What is L1R4 from 2028?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "From 2028, JC posting uses L1R4 of 16 or better and Millennia Institute uses L1R4 of 20 or better. Bonus points from CCA, Higher Mother Tongue and affiliation are capped at 3."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How is ELR2B2 different?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Polytechnic courses use ELR2B2: English, two relevant subjects that depend on course type A to D, and two other best subjects, minus up to 2 CCA bonus points."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a class="brand-link" href="/" aria-label="Bridging home">
+          <img src="/brand/bridging-logo-full.png" alt="bridging" width="320" height="52" />
+        </a>
+        <nav class="site-nav" aria-label="Higher education">
+          <a href="/higher-education">Higher Education</a>
+          <a href="/l1r5-calculator" aria-current="page">L1R5/4 Calculator</a>
+          <a href="/cut-off-points">Cut-off points</a>
+          <a href="/about">About</a>
+        </nav>
+      </header>
+      <main>
+        <p class="kicker">Aggregate bridging calculator</p>
+        <h1>L1R5/4 Calculator</h1>
+        <p class="lede">
+          Enter your O-Level or G3 Secondary Education Certificate grades. Bridging computes today’s
+          JC L1R5, MI L1R4, the 2028 L1R4 JC/MI rules, and all four polytechnic ELR2B2 types.
+        </p>
+
+        <div class="toolbar filters">
+          <div class="field">
+            <label for="system">Exam system</label>
+            <select id="system">
+              <option value="olevel">O-Level (current)</option>
+              <option value="sec">SEC / G3 (from 2028)</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="subjects" class="subjects"></div>
+        <div class="toolbar">
+          <button type="button" class="ghost" id="add-subject">Add subject</button>
+        </div>
+
+        <h2>Bonus points</h2>
+        <div class="bonus">
+          <div class="field">
+            <label for="cca">CCA grade</label>
+            <select id="cca">
+              <option value="0">None</option>
+              <option value="1">Good (1 point)</option>
+              <option value="2">Excellent (2 points)</option>
+            </select>
+          </div>
+          <label class="check"><input type="checkbox" id="hmtl-pass" /> Passed Higher Mother Tongue</label>
+          <label class="check"><input type="checkbox" id="affiliated" /> Affiliated school</label>
+          <label class="check"><input type="checkbox" id="lep" /> Language Elective Programme (JC)</label>
+        </div>
+
+        <div id="results" class="results" aria-live="polite"></div>
+        <p id="breakdown" class="meta"></p>
+
+        <h2>How the aggregates work</h2>
+        <p>
+          <strong>L1R5</strong> (JC today): L1 is English or Higher Mother Tongue. The five relevant
+          subjects must include a humanities subject and a mathematics or science subject. Religious
+          Knowledge cannot be used. You cannot count both Higher Mother Tongue and Mother Tongue.
+        </p>
+        <p>
+          <strong>L1R4 from 2028</strong>: L1 is G3 English or Higher Mother Tongue. R1 is humanities,
+          R2 is mathematics or science, R3 is another humanities/math/science subject, R4 is any other
+          eligible subject. JC needs net L1R4 ≤ 16; MI needs ≤ 20. Bonus points from CCA, Higher Mother
+          Tongue, and affiliation are capped at 3 (plus 2 for LEP if you take that programme).
+        </p>
+        <p>
+          <strong>ELR2B2</strong> (polytechnic): English plus two relevant subjects (type A, B, C, or D)
+          plus two other best subjects, minus up to 2 CCA points. From 2028 the overall limit becomes 22
+          (24 for Nursing) and B2 can be a G2-graded subject.
+        </p>
+        <p class="disclaimer">
+          This calculator follows MOE posting rules as published for JAE and the 2028 admissions
+          changes. It does not check course-specific minimum entry grades. Confirm figures against the
+          latest MOE JAE booklet.
+        </p>
+      </main>
+      <footer>
+        <p>
+          © 2026 Bridging. Not affiliated with SEAB or MOE.
+          <a href="/cut-off-points">Compare cut-off points</a>
+        </p>
+      </footer>
+    </div>
+    <script src="/l1r5-calculator/calculator.js" defer></script>
+  </body>
+</html>

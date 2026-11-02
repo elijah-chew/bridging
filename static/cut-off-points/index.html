@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="/bridging-tab-title.js" defer></script>
+    <title>JC, Polytechnic, and ITE Historical Cut off points | Bridging</title>
+    <link rel="icon" href="/favicon.ico?v=8" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/favicon.png?v=8" sizes="64x64" />
+    <meta
+      name="title"
+      content="JC, Polytechnic, and ITE Historical Cut off points | Bridging"
+    />
+    <meta
+      name="description"
+      content="Search 10+ years of Singapore JC L1R5 cut-off points, polytechnic ELR2B2 diploma ranges, and ITE Higher Nitec posting scores. Compare JAE history for JC, Poly, and ITE."
+    />
+    <link rel="canonical" href="https://bridging.lol/cut-off-points" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="JC, Polytechnic, and ITE Historical Cut off points | Bridging" />
+    <meta
+      property="og:description"
+      content="Historical JAE cut-off points for junior colleges, polytechnics, and ITE in Singapore."
+    />
+    <meta property="og:url" content="https://bridging.lol/cut-off-points" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Bridging" />
+    <meta property="og:image" content="https://bridging.lol/brand/bridging-logo-full.png" />
+    <meta name="twitter:card" content="summary" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/higher-education/he.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Dataset",
+        "name": "JC, Polytechnic, and ITE Historical Cut off points",
+        "url": "https://bridging.lol/cut-off-points",
+        "description": "Historical Singapore JAE net cut-off points for junior college, polytechnic, and ITE courses.",
+        "creator": { "@type": "Organization", "name": "Bridging", "url": "https://bridging.lol/" },
+        "spatialCoverage": "Singapore",
+        "license": "https://data.gov.sg/open-data-licence"
+      }
+    </script>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a class="brand-link" href="/" aria-label="Bridging home">
+          <img src="/brand/bridging-logo-full.png" alt="bridging" width="320" height="52" />
+        </a>
+        <nav class="site-nav" aria-label="Higher education">
+          <a href="/higher-education">Higher Education</a>
+          <a href="/l1r5-calculator">L1R5/4 Calculator</a>
+          <a href="/cut-off-points" aria-current="page">Cut-off points</a>
+          <a href="/about">About</a>
+        </nav>
+      </header>
+      <main>
+        <p class="kicker">JAE posting history</p>
+        <h1>JC, Polytechnic, and ITE Historical Cut off points</h1>
+        <p class="lede">
+          Net cut-off of the last student posted. Lower is more competitive. JC figures are L1R5
+          (MI uses L1R4). Polytechnic figures are ELR2B2. Empty cells mean no published figure for
+          that year (merged colleges, new courses, or missing open data).
+        </p>
+        <div class="toolbar filters">
+          <input class="search" id="q" type="search" placeholder="Search school or course" />
+          <div class="field">
+            <label for="kind">Pathway</label>
+            <select id="kind">
+              <option value="all">All</option>
+              <option value="jc">JC / MI / IP JC</option>
+              <option value="poly">Polytechnic</option>
+              <option value="ite">ITE</option>
+            </select>
+          </div>
+        </div>
+        <p id="count" class="meta"></p>
+        <div class="table-wrap">
+          <table>
+            <thead id="head"></thead>
+            <tbody id="body"></tbody>
+          </table>
+        </div>
+        <p class="disclaimer" style="margin-top: 20px">
+          JC 2014–2026 compiled from published JAE L1R5 tables. Polytechnic 2026 ranges from MOE
+          JAE course lists; Nanyang Polytechnic 2014–2026 and Ngee Ann Polytechnic selected years
+          from data.gov.sg. ITE lists 2026 JAE Higher Nitec net aggregates where published. Figures
+          are a guide only — posting depends on that year’s applicants and your choice order.
+          Sources: MOE JAE, data.gov.sg (NYP, NP).
+        </p>
+      </main>
+      <footer>
+        <p>
+          © 2026 Bridging. Not affiliated with SEAB or MOE.
+          <a href="/l1r5-calculator">Open the L1R5/4 calculator</a>
+        </p>
+      </footer>
+    </div>
+    <script src="/cut-off-points/explorer.js" defer></script>
+  </body>
+</html>
