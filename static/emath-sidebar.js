@@ -1,4 +1,4 @@
-/* Pin a Higher Education link at the bottom of the WeWeb E-Math sidebar. */
+/* Pin a Higher Education link at the bottom of the E-Math sidebar. */
 (function emathSidebar() {
   var app = /^\/(dashboard|practice|notes|topics|account|analytics|admin)(\/|$)/;
   if (!app.test(location.pathname)) return;

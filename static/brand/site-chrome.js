@@ -17,6 +17,29 @@
     }
   });
 
+  // Mobile: logo + hamburger, same as the landing page.
+  var nav = document.querySelector(".nav");
+  if (nav && !nav.querySelector(".nav-toggle")) {
+    var toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "nav-toggle";
+    toggle.setAttribute("aria-label", "Menu");
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.innerHTML = "<span></span><span></span><span></span>";
+    nav.appendChild(toggle);
+    toggle.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var open = nav.classList.toggle("is-open");
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+    document.addEventListener("click", function (e) {
+      if (!nav.contains(e.target)) {
+        nav.classList.remove("is-open");
+        toggle.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
+
   // Footer (landing-style: wordmark, copy, links).
   var mount = document.querySelector("footer[data-bridging-site-footer]");
   if (!mount) return;

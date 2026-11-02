@@ -1,4 +1,4 @@
-/* Restyle WeWeb login / signup / forgot-password to the landing aesthetic. */
+/* Restyle login / signup / forgot-password to the landing aesthetic. */
 (function authTheme() {
   var path = (location.pathname || "/").replace(/\/+$/, "") || "/";
   if (path !== "/login" && path !== "/signup" && path !== "/forgot-password") return;

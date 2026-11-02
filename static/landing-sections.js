@@ -1,7 +1,5 @@
-/* Rebuilds the "How it Works", "FAQ" and "Get Started" sections of the
-   WeWeb landing export so they share the hero / Higher Education aesthetic.
-   Only the inner .section-base of each section is replaced; the section
-   wrapper and its hash anchor stay, so nav links keep working. */
+/* Rebuilds the How it Works, FAQ and Get Started sections on the landing
+   page so they share the hero / Higher Education aesthetic. */
 (function landingSections() {
   if (location.pathname !== "/" && location.pathname !== "/index.html") return;
 
@@ -246,7 +244,7 @@
     var sec = document.querySelector('[data-section-uid="' + t.uid + '"]');
     if (!sec || sec.getAttribute(FLAG)) return !!sec;
     var base = sec.querySelector(".section-base") || sec;
-    if (!base.querySelector("h2")) return false; // WeWeb content not mounted yet
+    if (!base.querySelector("h2")) return false;
     base.innerHTML = t.html;
     base.id = t.id;
     base.classList.add("bl");
