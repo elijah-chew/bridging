@@ -98,7 +98,7 @@
       }
     </script>
   </head>
-  <body>
+  <body class="he-calc">
     <div class="wrap">
       <header>
         <a class="brand-link" href="/" aria-label="Bridging home">
@@ -129,14 +129,16 @@
           </div>
         </div>
 
-        <div class="subjects-head" aria-hidden="true">
-          <span>Subject</span>
-          <span>Category</span>
-          <span>Level</span>
-          <span>Grade</span>
-          <span></span>
+        <div class="subjects-sheet">
+          <div class="subjects-head" aria-hidden="true">
+            <span>Subject</span>
+            <span>Category</span>
+            <span>Level</span>
+            <span>Grade</span>
+            <span class="sr-only">Remove</span>
+          </div>
+          <div id="subjects" class="subjects"></div>
         </div>
-        <div id="subjects" class="subjects"></div>
         <div class="toolbar">
           <button type="button" class="ghost" id="add-subject">Add subject</button>
         </div>

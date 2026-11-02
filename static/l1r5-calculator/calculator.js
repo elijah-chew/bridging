@@ -329,8 +329,9 @@ function addRow(preset) {
   });
   const remove = document.createElement("button");
   remove.type = "button";
-  remove.className = "ghost";
-  remove.textContent = "Remove";
+  remove.className = "ghost row-remove";
+  remove.textContent = "×";
+  remove.setAttribute("aria-label", "Remove subject");
   remove.addEventListener("click", () => {
     row.remove();
     compute();
