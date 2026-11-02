@@ -158,10 +158,34 @@ button:hover { filter: brightness(0.96); }
 .subject-row .grow { flex: 1 1 180px; }
 .check { display: flex; align-items: center; gap: 8px; font-size: 14px; }
 .results {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
   margin: 20px 0;
+}
+.results h2 { margin: 0 0 8px; }
+.score-table td.num { font-variant-numeric: tabular-nums; font-weight: 600; }
+.score-table .meta { white-space: normal; max-width: 420px; }
+.subject-row .band, .subject-row .grade { min-width: 108px; flex: 0 0 108px; }
+.subject-row .cat { min-width: 140px; }
+html.cutoffs .wrap { max-width: 1320px; padding-left: 16px; padding-right: 16px; }
+html.cutoffs .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+html.cutoffs table { font-size: 13px; table-layout: auto; }
+html.cutoffs th, html.cutoffs td { padding: 7px 8px; }
+html.cutoffs td.course, html.cutoffs th.course { white-space: normal; min-width: 160px; max-width: 280px; }
+html.cutoffs td.yr, html.cutoffs th.yr { text-align: center; padding: 7px 6px; min-width: 44px; }
+html.cutoffs .school-row td {
+  background: var(--surface);
+  font-weight: 700;
+  padding-top: 12px;
+  border-bottom: 1px solid var(--border);
+}
+html.cutoffs .filters { align-items: end; }
+html.cutoffs .grow-field { flex: 1 1 220px; }
+html.cutoffs button[aria-pressed="true"] {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: var(--accent);
 }
 .result {
   border: 1px solid var(--border);

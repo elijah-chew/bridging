@@ -61,7 +61,7 @@ const JC = [
   jc("Jurong Pioneer Junior College", "Science", [14, 14, 14, 14, 14, 15, 15, 15, null, null, null, null, null]),
   jc("Yishun Innova Junior College", "Science", [18, 20, 20, 19, 19, 20, 20, 19, null, null, null, null, null]),
   jc("Millennia Institute", "Science / L1R4", [20, 17, null, 17, 18, 18, 20, 20, 17, 20, 17, 18, 18]),
-  jc("Anglo-Chinese School (Independent)", "IB", [5, null, null, null, null, null, null, null, null, null, 5, null, null], "IB"),
+  jc("Anglo-Chinese School (Independent)", "Science", [5, null, null, null, null, null, null, null, null, null, 5, null, null]),
   jc("St. Joseph's Institution", "IB", [6, null, null, null, null, null, null, null, null, null, 6, null, null], "IB"),
 ];
 

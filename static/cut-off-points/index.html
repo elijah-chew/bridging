@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="cutoffs">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -67,7 +67,10 @@
           that year (merged colleges, new courses, or missing open data).
         </p>
         <div class="toolbar filters">
-          <input class="search" id="q" type="search" placeholder="Search school or course" />
+          <div class="field grow-field">
+            <label for="q">Search</label>
+            <input class="search" id="q" type="search" placeholder="School, course, or code" />
+          </div>
           <div class="field">
             <label for="kind">Pathway</label>
             <select id="kind">
@@ -77,6 +80,15 @@
               <option value="ite">ITE</option>
             </select>
           </div>
+          <div class="field grow-field">
+            <label for="school">School</label>
+            <select id="school">
+              <option value="">All schools</option>
+            </select>
+          </div>
+          <button type="button" class="ghost" id="expand-years" aria-pressed="false">
+            Show 2014–2022
+          </button>
         </div>
         <p id="count" class="meta"></p>
         <div class="table-wrap">

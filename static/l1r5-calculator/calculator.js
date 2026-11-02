@@ -5,20 +5,8 @@ const SUBJECTS = [
   { name: "Elementary Mathematics", cat: "math" },
   { name: "Additional Mathematics", cat: "math" },
   { name: "Combined Humanities", cat: "hum" },
-  { name: "History", cat: "hum" },
-  { name: "Geography", cat: "hum" },
-  { name: "Literature", cat: "hum" },
   { name: "Combined Science", cat: "sci" },
   { name: "Physics", cat: "sci" },
-  { name: "Chemistry", cat: "sci" },
-  { name: "Biology", cat: "sci" },
-  { name: "Principles of Accounts", cat: "poa" },
-  { name: "Computing", cat: "others" },
-  { name: "Design & Technology", cat: "others" },
-  { name: "Nutrition & Food Science", cat: "others" },
-  { name: "Art", cat: "art" },
-  { name: "Music", cat: "art" },
-  { name: "Business Studies", cat: "hum" },
 ];
 
 const CATS = [
@@ -31,31 +19,29 @@ const CATS = [
   ["poa", "POA"],
   ["art", "Art / Music"],
   ["others", "Other"],
-  ["rk", "Religious Knowledge (excluded)"],
+  ["rk", "Religious Knowledge"],
 ];
 
 const HUM = new Set(["hum", "art"]);
 const MATHSCI = new Set(["math", "sci"]);
+const ITE_R2 = new Set(["sci", "others"]);
 const ELR2 = {
-  A: {
-    r1: new Set(["hum", "art"]),
-    r2: new Set(["hum", "art", "math", "sci", "poa", "others", "mtl", "hmtl"]),
-  },
-  B: {
-    r1: new Set(["math"]),
-    r2: new Set(["hum", "art", "poa", "others", "mtl", "hmtl"]),
-  },
-  C: {
-    r1: new Set(["math"]),
-    r2: new Set(["sci"]),
-  },
-  D: {
-    r1: new Set(["math"]),
-    r2: new Set(["art", "poa", "others"]),
-  },
+  A: { r1: new Set(["hum", "art"]), r2: new Set(["hum", "art", "math", "sci", "poa", "others", "mtl", "hmtl"]) },
+  B: { r1: new Set(["math"]), r2: new Set(["hum", "art", "poa", "others", "mtl", "hmtl"]) },
+  C: { r1: new Set(["math"]), r2: new Set(["sci"]) },
+  D: { r1: new Set(["math"]), r2: new Set(["art", "poa", "others"]) },
 };
 
-const GRADE_OPTS = Array.from({ length: 9 }, (_, i) => i + 1);
+const G3_LABELS = ["A1", "A2", "B3", "B4", "C5", "C6", "D7", "E8", "F9"];
+const G1_LABELS = ["A", "B", "C", "D", "E"];
+
+function g3ToG2(g) {
+  if (g <= 3) return 1;
+  if (g <= 6) return 2;
+  if (g === 7) return 3;
+  if (g === 8) return 4;
+  return 5;
+}
 
 function combinations(arr, k) {
   const out = [];
@@ -75,114 +61,228 @@ function combinations(arr, k) {
   return out;
 }
 
+function isSec() {
+  return document.getElementById("system").value === "sec";
+}
+
+function fillGrades(select, band, keep) {
+  select.innerHTML = "";
+  const opts = band === "g1"
+    ? G1_LABELS.map((label, i) => [String(i + 1), label])
+    : band === "g2"
+      ? [1, 2, 3, 4, 5, 6].map((n) => [String(n), String(n)])
+      : G3_LABELS.map((label, i) => [String(i + 1), `${i + 1} · ${label}`]);
+  for (const [value, label] of opts) {
+    const o = document.createElement("option");
+    o.value = value;
+    o.textContent = label;
+    select.appendChild(o);
+  }
+  const max = Number(opts[opts.length - 1][0]);
+  const next = Math.min(Number(keep) || 4, max);
+  select.value = String(next);
+}
+
+function restOf(subjects, used, usedHmtl) {
+  return subjects.filter((s) => !used.includes(s) && !(usedHmtl && s.cat === "mtl"));
+}
+
 function parseRows() {
   return [...document.querySelectorAll(".subject-row")].map((row) => ({
     name: row.querySelector(".name").value.trim(),
     cat: row.querySelector(".cat").value,
+    band: isSec() ? row.querySelector(".band").value : "g3",
     grade: Number(row.querySelector(".grade").value),
-  })).filter((s) => s.name && s.grade >= 1 && s.grade <= 9 && s.cat !== "rk");
+  })).filter((s) => s.name && s.grade >= 1 && s.cat !== "rk");
 }
 
-function withoutConflict(subjects, usedHmtl) {
-  return subjects.filter((s) => {
-    if (usedHmtl && s.cat === "mtl") return false;
-    if (!usedHmtl && s.cat === "hmtl" && subjects.some((x) => x.cat === "mtl" && x !== s)) {
-      return true;
-    }
-    return true;
-  });
+function g3Only(subjects) {
+  return subjects.filter((s) => s.band === "g3");
+}
+
+function asG2(s) {
+  if (s.band === "g2") return s.grade;
+  if (s.band === "g3") return g3ToG2(s.grade);
+  return null;
+}
+
+function labelPts(s, pts) {
+  const band = s.band === "g1" ? "G1" : s.band === "g2" ? "G2" : "G3";
+  return `${s.name} ${band} ${pts}`;
 }
 
 function bestL1R5(subjects) {
-  const l1s = subjects.filter((s) => s.cat === "el" || s.cat === "hmtl");
+  const pool = g3Only(subjects);
+  const l1s = pool.filter((s) => s.cat === "el" || s.cat === "hmtl");
   let best = null;
   for (const l1 of l1s) {
-    const usedHmtl = l1.cat === "hmtl";
-    const rest = subjects.filter((s) => s !== l1 && !(usedHmtl && s.cat === "mtl"));
+    const rest = restOf(pool, [l1], l1.cat === "hmtl");
     if (rest.length < 5) continue;
     for (const five of combinations(rest, 5)) {
-      const hum = five.filter((s) => HUM.has(s.cat)).length;
-      const ms = five.filter((s) => MATHSCI.has(s.cat)).length;
-      if (hum < 1 || ms < 1) continue;
+      if (!five.some((s) => HUM.has(s.cat)) || !five.some((s) => MATHSCI.has(s.cat))) continue;
       const gross = l1.grade + five.reduce((a, s) => a + s.grade, 0);
-      if (!best || gross < best.gross) {
-        best = { gross, l1, relevant: five };
-      }
+      if (!best || gross < best.gross) best = { gross, parts: [l1, ...five] };
     }
   }
   return best;
 }
 
-function bestL1R4(subjects, mode) {
-  const l1s = subjects.filter((s) => s.cat === "el" || s.cat === "hmtl");
+function bestL1R4(subjects, mode2028) {
+  const pool = g3Only(subjects);
+  const l1s = pool.filter((s) => s.cat === "el" || s.cat === "hmtl");
   let best = null;
   for (const l1 of l1s) {
-    const usedHmtl = l1.cat === "hmtl";
-    const rest = subjects.filter((s) => s !== l1 && !(usedHmtl && s.cat === "mtl"));
-    if (mode === "2028") {
+    const rest = restOf(pool, [l1], l1.cat === "hmtl");
+    if (mode2028) {
       const r1 = rest.filter((s) => HUM.has(s.cat)).sort((a, b) => a.grade - b.grade)[0];
       const r2 = rest.filter((s) => MATHSCI.has(s.cat) && s !== r1).sort((a, b) => a.grade - b.grade)[0];
       if (!r1 || !r2) continue;
       const rem = rest.filter((s) => s !== r1 && s !== r2);
       const r3 = rem.filter((s) => HUM.has(s.cat) || MATHSCI.has(s.cat)).sort((a, b) => a.grade - b.grade)[0];
-      if (!r3) continue;
       const r4 = rem.filter((s) => s !== r3).sort((a, b) => a.grade - b.grade)[0];
-      if (!r4) continue;
-      const relevant = [r1, r2, r3, r4];
-      const gross = l1.grade + relevant.reduce((a, s) => a + s.grade, 0);
-      if (!best || gross < best.gross) best = { gross, l1, relevant };
+      if (!r3 || !r4) continue;
+      const parts = [l1, r1, r2, r3, r4];
+      const gross = parts.reduce((a, s) => a + s.grade, 0);
+      if (!best || gross < best.gross) best = { gross, parts };
     } else {
       if (rest.length < 4) continue;
       for (const four of combinations(rest, 4)) {
-        const hum = four.filter((s) => HUM.has(s.cat)).length;
-        const ms = four.filter((s) => MATHSCI.has(s.cat)).length;
-        if (hum < 1 || ms < 1) continue;
+        if (!four.some((s) => HUM.has(s.cat)) || !four.some((s) => MATHSCI.has(s.cat))) continue;
         const gross = l1.grade + four.reduce((a, s) => a + s.grade, 0);
-        if (!best || gross < best.gross) best = { gross, l1, relevant: four };
+        if (!best || gross < best.gross) best = { gross, parts: [l1, ...four] };
       }
     }
   }
   return best;
 }
 
-function bestELR2B2(subjects, type) {
-  const el = subjects.filter((s) => s.cat === "el").sort((a, b) => a.grade - b.grade)[0];
+function bestELR2B2(subjects, type, for2028) {
+  const el = g3Only(subjects).filter((s) => s.cat === "el").sort((a, b) => a.grade - b.grade)[0];
   if (!el) return null;
-  const rest = subjects.filter((s) => s !== el);
   const { r1: r1set, r2: r2set } = ELR2[type];
+  const g3rest = restOf(g3Only(subjects), [el], false);
   let best = null;
-  for (const r1 of rest.filter((s) => r1set.has(s.cat))) {
-    for (const r2 of rest.filter((s) => s !== r1 && r2set.has(s.cat))) {
-      const others = rest.filter((s) => s !== r1 && s !== r2).sort((a, b) => a.grade - b.grade);
-      if (others.length < 2) continue;
-      const b1 = others[0];
-      const b2 = others[1];
-      const gross = el.grade + r1.grade + r2.grade + b1.grade + b2.grade;
-      if (!best || gross < best.gross) best = { gross, l1: el, relevant: [r1, r2, b1, b2] };
+  for (const r1 of g3rest.filter((s) => r1set.has(s.cat))) {
+    for (const r2 of g3rest.filter((s) => s !== r1 && r2set.has(s.cat))) {
+      const othersG3 = g3rest.filter((s) => s !== r1 && s !== r2).sort((a, b) => a.grade - b.grade);
+      if (for2028) {
+        if (!othersG3.length) continue;
+        const b1 = othersG3[0];
+        const b2pool = subjects.filter((s) => s !== el && s !== r1 && s !== r2 && s !== b1);
+        let b2Best = null;
+        for (const cand of b2pool) {
+          if (cand.band === "g1") continue;
+          let pts = null;
+          if (cand.band === "g2") {
+            if (cand.grade <= 4) pts = cand.grade;
+          } else if (cand.band === "g3" && cand.grade <= 8) {
+            pts = g3ToG2(cand.grade);
+          }
+          if (pts == null) continue;
+          if (!b2Best || pts < b2Best.pts) b2Best = { sub: cand, pts };
+        }
+        if (!b2Best) continue;
+        const gross = el.grade + r1.grade + r2.grade + b1.grade + b2Best.pts;
+        if (!best || gross < best.gross) {
+          best = { gross, parts: [el, r1, r2, b1, b2Best.sub], mapped: { [b2Best.sub.name]: b2Best.pts } };
+        }
+      } else {
+        if (othersG3.length < 2) continue;
+        const b1 = othersG3[0];
+        const b2 = othersG3[1];
+        const gross = el.grade + r1.grade + r2.grade + b1.grade + b2.grade;
+        if (!best || gross < best.gross) best = { gross, parts: [el, r1, r2, b1, b2] };
+      }
     }
   }
   return best;
 }
 
+function bestELB4(subjects) {
+  const el = g3Only(subjects).filter((s) => s.cat === "el").sort((a, b) => a.grade - b.grade)[0];
+  if (!el) return null;
+  const rest = restOf(g3Only(subjects), [el], false).sort((a, b) => a.grade - b.grade);
+  if (rest.length < 4) return null;
+  const four = rest.slice(0, 4);
+  return { gross: el.grade + four.reduce((a, s) => a + s.grade, 0), parts: [el, ...four] };
+}
+
+function bestELR1B3(subjects) {
+  const el = g3Only(subjects).filter((s) => s.cat === "el").sort((a, b) => a.grade - b.grade)[0];
+  if (!el) return null;
+  const rest = restOf(g3Only(subjects), [el], false);
+  let best = null;
+  for (const r1 of rest.filter((s) => s.cat === "math" || s.cat === "poa")) {
+    const others = rest.filter((s) => s !== r1).sort((a, b) => a.grade - b.grade);
+    if (others.length < 3) continue;
+    const three = others.slice(0, 3);
+    const gross = el.grade + r1.grade + three.reduce((a, s) => a + s.grade, 0);
+    if (!best || gross < best.gross) best = { gross, parts: [el, r1, ...three] };
+  }
+  return best;
+}
+
+function bestITEC(subjects) {
+  const el = g3Only(subjects).filter((s) => s.cat === "el").sort((a, b) => a.grade - b.grade)[0];
+  if (!el) return null;
+  const rest = restOf(g3Only(subjects), [el], false);
+  let best = null;
+  for (const r1 of rest.filter((s) => s.cat === "math")) {
+    for (const r2 of rest.filter((s) => s !== r1 && ITE_R2.has(s.cat))) {
+      const others = rest.filter((s) => s !== r1 && s !== r2).sort((a, b) => a.grade - b.grade);
+      if (others.length < 2) continue;
+      const two = others.slice(0, 2);
+      const gross = el.grade + r1.grade + r2.grade + two.reduce((a, s) => a + s.grade, 0);
+      if (!best || gross < best.gross) best = { gross, parts: [el, r1, r2, ...two] };
+    }
+  }
+  return best;
+}
+
+function bestELMAB3(subjects) {
+  const scored = subjects.map((s) => ({ s, pts: asG2(s) })).filter((x) => x.pts != null);
+  const el = scored.filter((x) => x.s.cat === "el").sort((a, b) => a.pts - b.pts)[0];
+  const ma = scored.filter((x) => x.s.cat === "math" && x !== el).sort((a, b) => a.pts - b.pts)[0];
+  if (!el || !ma) return null;
+  const others = scored.filter((x) => x !== el && x !== ma).sort((a, b) => a.pts - b.pts);
+  if (others.length < 3) return null;
+  const three = others.slice(0, 3);
+  const parts = [el, ma, ...three];
+  return {
+    gross: parts.reduce((a, x) => a + x.pts, 0),
+    parts: parts.map((x) => x.s),
+    mapped: Object.fromEntries(parts.map((x) => [x.s.name, x.pts])),
+  };
+}
+
 function jcBonus(cca, hmtl, affiliated, lep, cap) {
-  const base = Math.min(cap, cca + (hmtl ? 2 : 0) + (affiliated ? 2 : 0));
-  return base + (lep ? 2 : 0);
+  return Math.min(cap, cca + (hmtl ? 2 : 0) + (affiliated ? 2 : 0)) + (lep ? 2 : 0);
 }
 
-function names(sel) {
-  if (!sel) return "—";
-  return [sel.l1, ...sel.relevant].map((s) => `${s.name} (${s.grade})`).join(" · ");
+function breakdown(sel) {
+  if (!sel) return "";
+  return sel.parts.map((s) => {
+    const mapped = sel.mapped?.[s.name];
+    return mapped != null ? labelPts(s, mapped) : `${s.name} ${s.grade}`;
+  }).join(" · ");
 }
 
-function resultCard(title, sel, bonus, capNote, eligible) {
-  const net = sel ? sel.gross - bonus : null;
-  return `<article class="result">
-    <span class="badge">${title}</span>
-    <strong>${net == null ? "—" : net}</strong>
-    <div class="meta">Gross ${sel ? sel.gross : "—"} · bonus −${bonus}${capNote ? ` · ${capNote}` : ""}</div>
-    <div class="meta">${eligible || ""}</div>
-    <div class="meta">${names(sel)}</div>
-  </article>`;
+function status(net, limit, okText, miss) {
+  if (net == null) return miss;
+  return net <= limit ? okText : `Above limit of ${limit}`;
+}
+
+function renderTable(rows) {
+  return `<div class="table-wrap score-table"><table>
+    <thead><tr><th>Aggregate</th><th>Net</th><th>Gross</th><th>Bonus</th><th>Guide</th></tr></thead>
+    <tbody>${rows.map((r) => `<tr>
+      <td><strong>${r.name}</strong><div class="meta">${breakdown(r.sel)}</div></td>
+      <td class="num">${r.net == null ? "—" : r.net}</td>
+      <td class="num">${r.sel ? r.sel.gross : "—"}</td>
+      <td class="num">−${r.bonus}</td>
+      <td>${r.guide}</td>
+    </tr>`).join("")}</tbody>
+  </table></div>`;
 }
 
 function addRow(preset) {
@@ -201,15 +301,22 @@ function addRow(preset) {
     cat.appendChild(o);
   }
   cat.value = preset?.cat || "others";
+  const band = document.createElement("select");
+  band.className = "band";
+  for (const [value, label] of [["g3", "G3 / O-Level"], ["g2", "G2"], ["g1", "G1"]]) {
+    const o = document.createElement("option");
+    o.value = value;
+    o.textContent = label;
+    band.appendChild(o);
+  }
+  band.value = "g3";
   const grade = document.createElement("select");
   grade.className = "grade";
-  for (const g of GRADE_OPTS) {
-    const o = document.createElement("option");
-    o.value = String(g);
-    o.textContent = String(g);
-    grade.appendChild(o);
-  }
-  grade.value = "4";
+  fillGrades(grade, "g3", "4");
+  band.addEventListener("change", () => {
+    fillGrades(grade, band.value, grade.value);
+    compute();
+  });
   const remove = document.createElement("button");
   remove.type = "button";
   remove.className = "ghost";
@@ -218,49 +325,90 @@ function addRow(preset) {
     row.remove();
     compute();
   });
-  row.append(name, cat, grade, remove);
+  row.append(name, cat, band, grade, remove);
   row.addEventListener("change", compute);
   row.addEventListener("input", compute);
   document.getElementById("subjects").appendChild(row);
+  syncBands();
+}
+
+function syncBands() {
+  document.querySelectorAll(".band").forEach((el) => {
+    el.hidden = false;
+    el.disabled = false;
+  });
 }
 
 function compute() {
+  syncBands();
   const subjects = parseRows();
   const cca = Number(document.getElementById("cca").value);
   const hmtl = document.getElementById("hmtl-pass").checked;
   const affiliated = document.getElementById("affiliated").checked;
   const lep = document.getElementById("lep").checked;
-  const l1r5 = bestL1R5(subjects);
-  const l1r4 = bestL1R4(subjects, "current");
-  const l1r4b = bestL1R4(subjects, "2028");
   const bonusJc = jcBonus(cca, hmtl, affiliated, lep, 4);
   const bonus28 = jcBonus(cca, hmtl, affiliated, lep, 3);
-  const bonusPoly = Math.min(2, cca);
-  const types = ["A", "B", "C", "D"].map((t) => [t, bestELR2B2(subjects, t)]);
-  const elig5 = l1r5 ? (l1r5.gross - bonusJc <= 20 ? "Eligible for JC (net ≤ 20)" : "Above JC limit of 20") : "Need English or HMTL + 5 relevant subjects";
-  const elig4 = l1r4 ? (l1r4.gross - bonusJc <= 20 ? "Eligible for MI (net ≤ 20)" : "Above MI limit of 20") : "Need 4 relevant subjects";
-  const net28 = l1r4b ? l1r4b.gross - bonus28 : null;
-  const elig28 = net28 == null
-    ? "Need G3 English/HMTL, humanities, math/science"
-    : net28 <= 16
-      ? "Meets 2028 JC limit (≤ 16)"
-      : net28 <= 20
-        ? "Meets 2028 MI limit (≤ 20), above JC 16"
-        : "Above 2028 MI limit of 20";
-  document.getElementById("results").innerHTML = [
-    resultCard("L1R5 · JC today", l1r5, bonusJc, "bonus cap 4", elig5),
-    resultCard("L1R4 · MI today", l1r4, bonusJc, "bonus cap 4", elig4),
-    resultCard("L1R4 · JC/MI from 2028", l1r4b, bonus28, "bonus cap 3", elig28),
-    ...types.map(([t, sel]) =>
-      resultCard(
-        `ELR2B2-${t} · Poly`,
-        sel,
-        bonusPoly,
-        "CCA cap 2",
-        sel ? (sel.gross - bonusPoly <= 26 ? "Within current poly limit (≤ 26)" : "Above poly limit of 26") : "Missing relevant subjects for this type"
-      )
+  const bonusCca = Math.min(2, cca);
+  const sec = isSec();
+
+  const l1r5 = bestL1R5(subjects);
+  const l1r4 = bestL1R4(subjects, false);
+  const l1r428 = bestL1R4(subjects, true);
+  const poly = ["A", "B", "C", "D"].map((t) => [t, bestELR2B2(subjects, t, sec)]);
+  const elb4 = bestELB4(subjects);
+  const elr1 = bestELR1B3(subjects);
+  const itec = bestITEC(subjects);
+  const elmab3 = bestELMAB3(subjects);
+
+  const jcRows = sec
+    ? [
+        row("L1R4 · JC from 2028", l1r428, bonus28, status(l1r428 ? l1r428.gross - bonus28 : null, 16, "JC-eligible (≤ 16)", "Need G3 English/HMTL, humanities, math/science")),
+        row("L1R4 · MI from 2028", l1r428, bonus28, status(l1r428 ? l1r428.gross - bonus28 : null, 20, "MI-eligible (≤ 20)", "Need G3 English/HMTL, humanities, math/science")),
+      ]
+    : [
+        row("L1R5 · JC today", l1r5, bonusJc, status(l1r5 ? l1r5.gross - bonusJc : null, 20, "JC-eligible (≤ 20)", "Need English or HMTL + 5 G3 subjects")),
+        row("L1R4 · MI today", l1r4, bonusJc, status(l1r4 ? l1r4.gross - bonusJc : null, 20, "MI-eligible (≤ 20)", "Need 4 G3 relevant subjects")),
+      ];
+
+  const polyRows = poly.map(([t, sel]) => {
+    const limit = sec ? 22 : 26;
+    const nursing = t === "C" ? (sec ? " · Nursing ≤ 24" : " · Nursing ≤ 28") : "";
+    return row(
+      `ELR2B2-${t}`,
+      sel,
+      bonusCca,
+      status(sel ? sel.gross - bonusCca : null, limit, `Within poly limit${nursing}`, "Need G3 English and relevant subjects")
+    );
+  });
+  polyRows.push(
+    row(
+      "ELMAB3 · PFP",
+      elmab3,
+      bonusCca,
+      status(elmab3 ? elmab3.gross - bonusCca : null, 12, "PFP uses ELMAB3 on the G2 scale", "Need English, Math, and 3 other subjects")
+    )
+  );
+
+  const iteRows = [
+    row("ELB4-A", elb4, bonusCca, status(elb4 ? elb4.gross - bonusCca : null, 26, "ITE type A (current JAE)", "Need English + 4 other G3 subjects")),
+    row("ELR1B3-B", elr1, bonusCca, status(elr1 ? elr1.gross - bonusCca : null, 26, "ITE type B (current JAE)", "Need English, Math or POA, + 3 others")),
+    row("ELR2B2-C", itec, bonusCca, status(itec ? itec.gross - bonusCca : null, 26, "ITE type C (current JAE)", "Need English, Math, a science-related subject, + 2 others")),
+    row(
+      "ELMAB3 · Higher Nitec from 2028",
+      elmab3,
+      bonusCca,
+      status(elmab3 ? elmab3.gross - bonusCca : null, 19, "Within 2028 ITE limit (≤ 19)", "Need English, Math, and 3 other G2/G3 subjects")
     ),
-  ].join("");
+  ];
+
+  document.getElementById("results").innerHTML = `
+    <section><h2>JC / MI</h2>${renderTable(jcRows)}</section>
+    <section><h2>Polytechnic</h2>${renderTable(polyRows)}</section>
+    <section><h2>ITE</h2>${renderTable(iteRows)}</section>`;
+
+  function row(name, sel, bonus, guide) {
+    return { name, sel, bonus, net: sel ? sel.gross - bonus : null, guide };
+  }
 }
 
 document.getElementById("add-subject").addEventListener("click", () => {
@@ -271,7 +419,5 @@ document.getElementById("add-subject").addEventListener("click", () => {
   document.getElementById(id).addEventListener("change", compute);
 });
 
-["English", "Higher Mother Tongue", "Mother Tongue", "Elementary Mathematics", "Additional Mathematics", "Combined Humanities", "Combined Science", "Physics"].forEach((name) => {
-  addRow(SUBJECTS.find((s) => s.name === name));
-});
+SUBJECTS.forEach((s) => addRow(s));
 compute();
