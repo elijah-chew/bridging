@@ -33,6 +33,8 @@
     if (!nodes.length) return;
     for (const faq of nodes) {
       if ((faq.textContent || "").includes("Higher Education")) continue;
+      // Only the nav/menu entries, not the FAQ section's own heading label.
+      if (faq.closest('[data-section-uid="f9d9c27b-da5f-4e1d-b868-17a802ad6161"]')) continue;
       const mobile = (faq.textContent || "").trim() === "FAQ" && getComputedStyle(faq).fontSize >= "16px";
       const link = makeLink(mobile || faq.tagName === "P");
       faq.insertAdjacentElement("afterend", link);
