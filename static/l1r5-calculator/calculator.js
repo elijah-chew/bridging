@@ -32,8 +32,14 @@ const ELR2 = {
   D: { r1: new Set(["math"]), r2: new Set(["art", "poa", "others"]) },
 };
 
-const G3_LABELS = ["A1", "A2", "B3", "B4", "C5", "C6", "D7", "E8", "F9"];
+const G3_LABELS = ["A1", "A2", "B3", "B4", "C5", "C6", "D7", "E8", "9"];
 const G1_LABELS = ["A", "B", "C", "D", "E"];
+
+function gradeLabel(s) {
+  if (s.band === "g3") return G3_LABELS[s.grade - 1] || String(s.grade);
+  if (s.band === "g1") return G1_LABELS[s.grade - 1] || String(s.grade);
+  return String(s.grade);
+}
 
 function g3ToG2(g) {
   if (g <= 3) return 1;
@@ -71,7 +77,7 @@ function fillGrades(select, band, keep) {
     ? G1_LABELS.map((label, i) => [String(i + 1), label])
     : band === "g2"
       ? [1, 2, 3, 4, 5, 6].map((n) => [String(n), String(n)])
-      : G3_LABELS.map((label, i) => [String(i + 1), `${i + 1} · ${label}`]);
+      : G3_LABELS.map((label, i) => [String(i + 1), label]);
   for (const [value, label] of opts) {
     const o = document.createElement("option");
     o.value = value;
@@ -91,7 +97,7 @@ function parseRows() {
   return [...document.querySelectorAll(".subject-row")].map((row) => ({
     name: row.querySelector(".name").value.trim(),
     cat: row.querySelector(".cat").value,
-    band: isSec() ? row.querySelector(".band").value : "g3",
+    band: row.querySelector(".band").value,
     grade: Number(row.querySelector(".grade").value),
   })).filter((s) => s.name && s.grade >= 1 && s.cat !== "rk");
 }
@@ -263,7 +269,9 @@ function breakdown(sel) {
   if (!sel) return "";
   return sel.parts.map((s) => {
     const mapped = sel.mapped?.[s.name];
-    return mapped != null ? labelPts(s, mapped) : `${s.name} ${s.grade}`;
+    if (mapped != null) return labelPts(s, mapped);
+    const band = s.band === "g1" ? "G1" : s.band === "g2" ? "G2" : "G3";
+    return `${s.name} ${band} ${gradeLabel(s)}`;
   }).join(" · ");
 }
 
@@ -303,7 +311,11 @@ function addRow(preset) {
   cat.value = preset?.cat || "others";
   const band = document.createElement("select");
   band.className = "band";
-  for (const [value, label] of [["g3", "G3 / O-Level"], ["g2", "G2"], ["g1", "G1"]]) {
+  for (const [value, label] of [
+    ["g3", "G3"],
+    ["g2", "G2"],
+    ["g1", "G1"],
+  ]) {
     const o = document.createElement("option");
     o.value = value;
     o.textContent = label;
