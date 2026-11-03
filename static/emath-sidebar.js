@@ -19,9 +19,9 @@
     var style = document.createElement("style");
     style.id = CSS_ID;
     style.textContent =
-      "a.bridging-he-side{display:flex;align-items:center;gap:8px;margin-top:12px;padding:10px 12px;border-radius:12px;border:1px solid rgba(0,0,0,.08);background:#fff;color:#0a0a0a;font:600 13px/1.2 Inter,sans-serif;letter-spacing:-.01em;text-decoration:none}" +
-      "a.bridging-he-side:hover{border-color:#3b82f6;color:#2f62fd}" +
-      "a.bridging-he-side small{display:block;font:500 11px/1.2 Inter,sans-serif;color:#94a3b8;font-weight:500;margin-top:3px}";
+      "a.bridging-he-side{display:flex;flex-direction:column;align-items:flex-start;gap:2px;margin-top:12px;padding:11px 14px;border-radius:14px;border:1px solid rgba(0,0,0,.08);background:#fff;color:#0a0a0a;font:600 13px/1.2 Inter,sans-serif;letter-spacing:-.01em;text-decoration:none;box-shadow:0 4px 16px rgba(0,0,0,.03);transition:border-color .18s ease,transform .18s ease}" +
+      "a.bridging-he-side:hover{border-color:rgba(0,0,0,.22);color:#0a0a0a;transform:translateY(-1px)}" +
+      "a.bridging-he-side small{display:block;font:500 11px/1.3 Inter,sans-serif;color:#94a3b8;white-space:nowrap}";
     document.head.appendChild(style);
   }
 
