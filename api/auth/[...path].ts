@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createClient, type Session, type User } from '@supabase/supabase-js';
+import { recordAllUser } from '../lib/bridging.js';
 
 const SESSION_COOKIE = 'better-auth.session_token';
 const REFRESH_COOKIE = 'bridging.refresh_token';
@@ -242,6 +243,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
         return;
       }
       setSessionCookies(req, res, exchanged.data.session, true);
+      if (exchanged.data.user) {
+        void recordAllUser(exchanged.data.user).catch(() => {});
+      }
       res.redirect(302, `${origin}/practice`);
       return;
     }
@@ -314,6 +318,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
       }
 
       setSessionCookies(req, res, session, true);
+      if (user) void recordAllUser(user).catch(() => {});
       sendJson(res, 200, { token: session.access_token, user: toBetterUser(user!) });
       return;
     }
