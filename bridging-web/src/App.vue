@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { supabase, getProfile, type Profile } from './lib/supabase';
 import AppNav from './components/AppNav.vue';
+import { Analytics } from '@vercel/analytics/vue';
 
 const profile = ref<Profile | null>(null);
 const ready = ref(false);
@@ -19,6 +20,7 @@ onMounted(async () => {
 </script>
 
 <template>
+  <Analytics />
   <div v-if="!ready" class="loading-screen">Loading…</div>
   <div v-else class="app-root">
     <AppNav :profile="profile" />
